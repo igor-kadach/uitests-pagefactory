@@ -25,7 +25,7 @@ namespace UITests.Tests
             _webDriver.Close();
         }
 
-     // [Test]
+        [Test]
         public void PaymentIntegration()
         {
             var signInButtonClick = new MainMenuPageObject(_webDriver);

@@ -29,7 +29,7 @@ namespace UITests.Tests
             _webDriver.Close();
         }
 
-     // [Test]
+        [Test]
         public void CheckFavorite()
         {
             var signInButtonClick = new MainMenuPageObject(_webDriver);

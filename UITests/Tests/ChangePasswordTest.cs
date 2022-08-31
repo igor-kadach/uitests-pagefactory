@@ -113,21 +113,3 @@ namespace UITests.Tests
         }
     }
 }
-
-
-// var goToPrivateArea = new MainMenuPageObject(_webDriver);
-//goToPrivateArea
-//   .SignIn()
-//  .Login(TestDatas.phoneNumber, TestDatas.password)
-// .OpenPersonalArea();
-
-
-
-//  var changePassword = new SettingsPageObject(_webDriver);
-// changePassword.ChangePassword();
-
-// Thread.Sleep(3000);
-//var loginWithOldPassword = new MainMenuPageObject(_webDriver);
-//loginWithOldPassword
-//    .SignIn()
-//    .Login(TestDatas.phoneNumber, TestDatas.password);

@@ -24,7 +24,8 @@ namespace UITests.Tests
         {
             _webDriver.Close();
         }
-   //   [Test]
+
+        [Test]
         public void CarExchange()
         {
             var signInButtonClick = new MainMenuPageObject(_webDriver);

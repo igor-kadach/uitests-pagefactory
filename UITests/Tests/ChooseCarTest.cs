@@ -24,7 +24,7 @@ namespace UITests.Tests
             _webDriver.Close();
         }
 
-     // [Test]
+        [Test]
         public void ChooseCart()
         {
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);

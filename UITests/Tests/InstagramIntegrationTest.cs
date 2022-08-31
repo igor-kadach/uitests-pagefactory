@@ -24,7 +24,7 @@ namespace UITests.Tests
             _webDriver.Close();
         }
 
-    //  [Test]
+        [Test]
         public void InstagramIntegration()
         {
             var linkIsAvailable = new MainMenuPageObject(_webDriver);

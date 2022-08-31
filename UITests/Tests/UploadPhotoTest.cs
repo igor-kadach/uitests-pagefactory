@@ -25,7 +25,7 @@ namespace UITests.Tests
             _webDriver.Close();
         }
 
-     // [Test]
+        [Test]
         public void CheckUploadPhotoTest()
         {
             var signInButtonClick = new MainMenuPageObject(_webDriver);

@@ -6,16 +6,7 @@ namespace UITests.PageObjects
     class MainMenuPageObject
     {
         private IWebDriver _webDriver;
-
-        //    private readonly By _sighInButton = By.XPath("//span[contains(text(),'Войти')]");
-        //    private readonly By _profile = By.XPath("//*[name()='path' and contains(@d,'M12 18a6 6')]");
-        //    private readonly By _showCatalogButton = By.CssSelector(".button.button--secondary.button--block");
-        //    private readonly By _nameOfCar = By.XPath("//span[contains(text(),'Audi')]");
-        //    private readonly By _goToInstagram = By.XPath("//a[normalize-space()='Instagram']");
-        //    private readonly By _askQuestion = By.XPath("//a[contains(text(),'Задать вопрос')]");
-        //    private readonly By _mostPopularQuestions = By.XPath("//a[@href='https://av.by/pages/faq']");
-        //     private readonly By _infoEmail = By.XPath("//u[normalize-space()='info@av.by']");
-        //   private readonly By _saveSearchList = By.XPath("//a[@title='Сохранённые поиски']");
+               
 
         public MainMenuPageObject(IWebDriver webDriver)
         {
@@ -76,15 +67,7 @@ namespace UITests.PageObjects
             var isLinkEnable = _infoEmail.Enabled;
 
             return isLinkEnable;
-        }
-
-        //  public MainMenuPageObject OpenSaveSearchList() 
-        // {
-        //    _saveSearchList).Click();
-
-        //            return new MainMenuPageObject(_webDriver);
-        //       }
-
+        }        
     }
 }
 
