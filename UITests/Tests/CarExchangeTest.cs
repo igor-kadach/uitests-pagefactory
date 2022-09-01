@@ -1,33 +1,39 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using SeleniumExtras.PageObjects;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestDatas;
 
 namespace UITests.Tests
 {
     class CarExchangeTest
     {
-        private IWebDriver _webDriver;
 
         [SetUp]
         public void Setup()
         {
-            _webDriver = new ChromeDriver();
-            _webDriver.Navigate().GoToUrl(TestDatas.testUrl);
+            var _webDriver = WebDriverSingleton.GetInstance();
+
+            _webDriver.Navigate().GoToUrl(TestData.testUrl);
             _webDriver.Manage().Window.Maximize();
         }
 
         [TearDown]
         public void EndTest()
         {
+            var _webDriver = WebDriverSingleton.GetInstance();
+
             _webDriver.Close();
+            _webDriver.Quit();
+            WebDriverSingleton.SetNull();
         }
 
         [Test]
         public void CarExchange()
         {
+            var _webDriver = WebDriverSingleton.GetInstance();
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
@@ -36,14 +42,14 @@ namespace UITests.Tests
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
             login._byEmail.Click();
-            login._loginInputField.SendKeys(TestDatas.emailAdress);
-            login._passwordInputField.SendKeys(TestDatas.password);
+            login._loginInputField.SendKeys(TestData.emailAdress);
+            login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
 
             var offersForExchange = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, offersForExchange);
             offersForExchange._allParametrs.Click();
-            offersForExchange._searchByWords.SendKeys(TestDatas.exchange);
+            offersForExchange._searchByWords.SendKeys(TestData.exchange);
 
             Thread.Sleep(1500);
             offersForExchange._buttonShow.Click();
@@ -70,3 +76,5 @@ namespace UITests.Tests
         }
     }
 }
+
+

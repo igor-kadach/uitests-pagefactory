@@ -1,13 +1,13 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using UITests.TestDatas;
 
 namespace UITests.PageObjects
 {
     class MainMenuPageObject
     {
         private IWebDriver _webDriver;
-               
-
+       
         public MainMenuPageObject(IWebDriver webDriver)
         {
             _webDriver = webDriver;

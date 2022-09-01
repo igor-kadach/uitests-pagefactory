@@ -6,7 +6,6 @@ namespace UITests.PageObjects
     class PersonalAreaPageObject
     {
         private IWebDriver _webDriver;
-
     
         public PersonalAreaPageObject(IWebDriver webDriver)
         {
@@ -28,7 +27,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//button[@class='button button--primary button--large']")]
         public IWebElement _buttonSaveChanges { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//ul[@class='uploader__thumbs']/li[10]")]
+        [FindsBy(How = How.XPath, Using = "//ul[@class='uploader__thumbs']")]
         public IWebElement _findAddedPhoto { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//a[@class='saved-filter__link']")]
@@ -61,21 +60,12 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Удалить')]")]
         public IWebElement _acceptDeleting { get; set; }
 
-
         public bool IsAudiDispayed()
         {
           var IsBookmarkDisplayed = _nameAudi.Displayed;
 
             return IsBookmarkDisplayed;
-        }
-
-        public MainMenuPageObject AddPhoto()
-        {                  
-            _buttonChoosePhoto.SendKeys(TestDatas.filePath);
-                
-            return new MainMenuPageObject(_webDriver);
-        }
-
+        } 
 
         public bool isAddedPhotoDisplayed()
         {

@@ -1,33 +1,38 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using SeleniumExtras.PageObjects;
+using System.IO;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestDatas;
 
 namespace UITests.Tests
 {
     class UploadPhotoTest
     {
-        private IWebDriver _webDriver;
-
         [SetUp]
         public void Setup()
         {
-            _webDriver = new ChromeDriver();
-            _webDriver.Navigate().GoToUrl(TestDatas.testUrl);
+            var _webDriver = WebDriverSingleton.GetInstance();
+
+            _webDriver.Navigate().GoToUrl(TestData.testUrl);
             _webDriver.Manage().Window.Maximize();
         }
 
         [TearDown]
         public void EndTest()
         {
+            var _webDriver = WebDriverSingleton.GetInstance();
+
             _webDriver.Close();
+            _webDriver.Quit();
+            WebDriverSingleton.SetNull();
         }
 
         [Test]
         public void CheckUploadPhotoTest()
         {
+            var _webDriver = WebDriverSingleton.GetInstance();
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
@@ -36,8 +41,8 @@ namespace UITests.Tests
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
             login._byEmail.Click();
-            login._loginInputField.SendKeys(TestDatas.emailAdress);
-            login._passwordInputField.SendKeys(TestDatas.password);
+            login._loginInputField.SendKeys(TestData.emailAdress);
+            login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
             Thread.Sleep(1500);
 
@@ -50,7 +55,8 @@ namespace UITests.Tests
             PageFactory.InitElements(_webDriver, addPhoto);
             addPhoto._buttonChange.Click();
             Thread.Sleep(1500);
-            addPhoto._buttonChoosePhoto.SendKeys(TestDatas.filePath);
+            var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName}\\{TestData.fileName}";
+            addPhoto._buttonChoosePhoto.SendKeys(pathForPhoto);
             Thread.Sleep(3000);
             addPhoto._buttonSaveChanges.Click();
             Thread.Sleep(2000);

@@ -1,32 +1,36 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using SeleniumExtras.PageObjects;
 using UITests.PageObjects;
+using UITests.TestDatas;
 
 namespace UITests.Tests
 {
     class InfoLinkTest
     {
-        private IWebDriver _webDriver;
-
         [SetUp]
         public void Setup()
         {
-            _webDriver = new ChromeDriver();
-            _webDriver.Navigate().GoToUrl(TestDatas.testUrl);
+            var _webDriver = WebDriverSingleton.GetInstance();
+
+            _webDriver.Navigate().GoToUrl(TestData.testUrl);
             _webDriver.Manage().Window.Maximize();
         }
 
         [TearDown]
         public void EndTest()
         {
+            var _webDriver = WebDriverSingleton.GetInstance();
             _webDriver.Close();
+            _webDriver.Quit();
+            WebDriverSingleton.SetNull();
         }
 
         [Test]
         public void InfoLink()
         {
+            var _webDriver = WebDriverSingleton.GetInstance();
+
             IJavaScriptExecutor js = (IJavaScriptExecutor)_webDriver;
             js.ExecuteScript("window.scrollTo(0, 50000)");
 

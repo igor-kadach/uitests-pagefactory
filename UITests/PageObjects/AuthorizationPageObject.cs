@@ -5,8 +5,7 @@ namespace UITests.PageObjects
 {
     public class AuthorizationPageObject
     {
-        private IWebDriver _webDriver;
-            
+        private IWebDriver _webDriver;            
 
         public AuthorizationPageObject(IWebDriver webDriver)
         {

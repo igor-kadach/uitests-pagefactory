@@ -7,7 +7,6 @@ namespace UITests.PageObjects
     {
         private IWebDriver _webDriver;
 
-
         public SettingsPageObject(IWebDriver webDriver)
         {
             _webDriver = webDriver;
@@ -29,7 +28,6 @@ namespace UITests.PageObjects
         public IWebElement _applyButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='set-header__side']//span[contains(text(),'Выйти')]")]
-        public IWebElement _exitButton { get; set; }
-            
+        public IWebElement _exitButton { get; set; }            
     }
 }
