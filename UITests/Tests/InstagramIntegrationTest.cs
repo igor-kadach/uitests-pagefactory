@@ -25,7 +25,7 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+  //      [Test]
         public void InstagramIntegration()
         {
             var _webDriver = WebDriverSingleton.GetInstance();

@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
-using System.Threading;
+using SeleniumExtras.WaitHelpers;
+using System;
 using UITests.PageObjects;
 using UITests.TestDatas;
 
@@ -26,23 +28,26 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+  //      [Test]
         public void Login()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
-            Thread.Sleep(2000);
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            login._byEmail.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
+
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
-            Thread.Sleep(2000);
+
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
             var isProfileDisplayed = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, isProfileDisplayed);

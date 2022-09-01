@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
+using System;
 using System.Threading;
 using UITests.PageObjects;
 using UITests.TestDatas;
@@ -30,52 +33,53 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+      //  [Test]
         public void CheckFavorite()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
-            Thread.Sleep(2000);
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            login._byEmail.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
+
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
 
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openCatalogForSearching);
-            openCatalogForSearching._showCatalogButton.Click();
-            Thread.Sleep(2000);
+            openCatalogForSearching._showCatalogButton.Click();                      
 
             var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, chooseParametrsForSearching);
-            chooseParametrsForSearching._carsName.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._carsName)).Click();
+            
             chooseParametrsForSearching._nameAudi.Click();
             chooseParametrsForSearching._transmissionAutomatic.Click();
             chooseParametrsForSearching._chooseFuel.Click();
             chooseParametrsForSearching._benzinFuel.Click();
             chooseParametrsForSearching._chooseFuel.Click();
             chooseParametrsForSearching._buttonShow.Click();
-            Thread.Sleep(2000);
 
             var addToBookmarks = new CatalogPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, addToBookmarks);
-            addToBookmarks._bookmark.Click();
-            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(addToBookmarks._bookmark)).Click();            
 
             var profile = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, profile);
-            profile._profile.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(profile._profile)).Click();            
 
             var openBookmarks = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openBookmarks);
-            openBookmarks._bookmarks.Click();
-            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(openBookmarks._bookmarks)).Click();
+            
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
             var IsAudiDispayed = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, IsAudiDispayed);

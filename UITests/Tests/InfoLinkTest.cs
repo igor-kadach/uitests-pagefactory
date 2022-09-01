@@ -26,7 +26,7 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+   //     [Test]
         public void InfoLink()
         {
             var _webDriver = WebDriverSingleton.GetInstance();

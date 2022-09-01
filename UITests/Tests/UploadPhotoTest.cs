@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
+using System;
 using System.IO;
 using System.Threading;
 using UITests.PageObjects;
@@ -33,35 +36,38 @@ namespace UITests.Tests
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
-            Thread.Sleep(2000);
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            login._byEmail.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
-            Thread.Sleep(1500);
 
             var goToPerosonalArea = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, goToPerosonalArea);
+            wait.Until(ExpectedConditions.ElementToBeClickable(goToPerosonalArea._profile)).Click();
             goToPerosonalArea._profile.Click();
-            Thread.Sleep(1500);
 
             var addPhoto = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, addPhoto);
-            addPhoto._buttonChange.Click();
-            Thread.Sleep(1500);
+            wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+
+           // Thread.Sleep(1500);
             var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName}\\{TestData.fileName}";
+
             addPhoto._buttonChoosePhoto.SendKeys(pathForPhoto);
-            Thread.Sleep(3000);
-            addPhoto._buttonSaveChanges.Click();
             Thread.Sleep(2000);
-            addPhoto._buttonChange.Click();
-            Thread.Sleep(2000);
+            wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonSaveChanges)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
+
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
             var checkPhoto = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, checkPhoto);

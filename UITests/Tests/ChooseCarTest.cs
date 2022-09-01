@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using System;
 using UITests.PageObjects;
 using UITests.TestDatas;
 
@@ -25,11 +27,11 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+     //   [Test]
         public void ChooseCart()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
-
+                        
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openCatalogForSearching);
             openCatalogForSearching._showCatalogButton.Click();

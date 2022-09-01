@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
-using System.Threading;
+using SeleniumExtras.WaitHelpers;
+using System;
 using UITests.PageObjects;
 using UITests.TestDatas;
 
@@ -21,7 +23,7 @@ namespace UITests.Tests
         public void EndTest()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
-            Thread.Sleep(3000);
+
             var deleteSearching = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, deleteSearching);
             deleteSearching._deleteSavedSearching.Click();
@@ -32,19 +34,20 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+     //   [Test]
         public void SaveSearching()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
-            Thread.Sleep(2000);
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            login._byEmail.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
@@ -52,11 +55,10 @@ namespace UITests.Tests
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openCatalogForSearching);
             openCatalogForSearching._showCatalogButton.Click();
-            Thread.Sleep(2000);
 
             var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, chooseParametrsForSearching);
-            chooseParametrsForSearching._carsName.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._carsName)).Click();
             chooseParametrsForSearching._nameAudi.Click();
             chooseParametrsForSearching._transmissionAutomatic.Click();
             chooseParametrsForSearching._chooseFuel.Click();
@@ -67,8 +69,7 @@ namespace UITests.Tests
             var saveSearch = new CatalogPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, saveSearch);
             saveSearch._saveSearchButton.Click();
-            Thread.Sleep(2000);
-            saveSearch._closeSubscribing.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._closeSubscribing)).Click();
 
             var openSearchList = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openSearchList);
@@ -76,7 +77,8 @@ namespace UITests.Tests
 
             var isSearhcIsDisplayed = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, isSearhcIsDisplayed);
-            Thread.Sleep(3000);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+
             isSearhcIsDisplayed.isSearchIsSaved();
 
             var actualResult = isSearhcIsDisplayed.isSearchIsSaved();

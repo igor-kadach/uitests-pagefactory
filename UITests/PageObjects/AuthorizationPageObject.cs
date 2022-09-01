@@ -14,7 +14,7 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//button[contains(text(),'почте или логину')]")]
         public IWebElement _byEmail { get; set; }
-
+                
         [FindsBy(How = How.XPath, Using = "//input[@id='authPhone']")]
         public IWebElement _byPhone { get; set; }
 
@@ -28,10 +28,13 @@ namespace UITests.PageObjects
         public IWebElement _newPassAfterChangePass { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@name='login']")]
-        public IWebElement _loginInputField { get; set; }
+        public IWebElement _loginInputField { get; set; } //input[@id='authPhone'] //div[@class='drawer__slide drawer__slide--active']//button[@type='button'][contains(text(),'по телефону')]
 
         [FindsBy(How = How.XPath, Using = "//input[@id='loginPassword']")]
         public IWebElement _passwordInputField { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='drawer__slide drawer__slide--active']//input[@id='passwordPhone']")]
+        public IWebElement _passwordInputByPhone { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//span[@class='button__text'][contains(text(),'Войти')]")]
         public IWebElement _logInButton { get; set; }

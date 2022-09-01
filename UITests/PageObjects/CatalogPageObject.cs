@@ -30,6 +30,8 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//div[@class='modal modal--active']//*[name()='path' and contains(@d,'M13.414 12')]")]
         public IWebElement _closeSubscribing { get; set; }
 
+
+
         public bool isMyOfferDisplayed()
         {
             var isMyOfferDisplayed = _myOffer.Displayed;

@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
+using System;
 using System.Threading;
 using UITests.PageObjects;
 using UITests.TestDatas;
@@ -26,37 +29,36 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+     //   [Test]
         public void PaymentIntegration()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
-            signInButtonClick._sighInButton.Click();
-            Thread.Sleep(2000);
+            signInButtonClick._sighInButton.Click();         
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            login._byEmail.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();                    
+                        
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
 
             var goToMyProfile = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, goToMyProfile);
-            Thread.Sleep(2000);
-            goToMyProfile._profile.Click();
+          
+            wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();         
 
             var buyPoints = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, buyPoints);
-            buyPoints._points.Click();
-            Thread.Sleep(2000);
-            buyPoints._pointsFor10Rubles.Click();
-            Thread.Sleep(2000);
-            buyPoints._payByCard.Click();
-            Thread.Sleep(1000);
-            buyPoints._goToPayService.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._points)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._pointsFor10Rubles)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._payByCard)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();                       
 
             var paymentByCard = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, paymentByCard);
