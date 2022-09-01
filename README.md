@@ -35,13 +35,13 @@ May need to be added following usings:
 
 Tool → Command Line → Developer Command Prompt
 
-Install-Package NUnit -Version 3.13.2
-Install-Package NUnit.Allure -Version 1.2.1.1
-Install-Package NUnit3TestAdapter -Version 3.17.0
-Install-Package Selenium.Support -Version 4.4.0
-Install-Package Selenium.WebDriver -Version 4.4.0
-Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
-Install-Package SeleniumFramework -Version 1.0.6
+* Install-Package NUnit -Version 3.13.2
+* Install-Package NUnit.Allure -Version 1.2.1.1
+* Install-Package NUnit3TestAdapter -Version 3.17.0
+* Install-Package Selenium.Support -Version 4.4.0
+* Install-Package Selenium.WebDriver -Version 4.4.0
+* Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
+* Install-Package SeleniumFramework -Version 1.0.6
 
 
 
