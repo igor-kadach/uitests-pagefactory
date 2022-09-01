@@ -31,23 +31,18 @@ May need to be added following usings:
 * using UITests.PageObjects;
 
 
-For running ***CheckUploadPhotoTest*** test you need change constant named filePath which situated in ***TestDatas*** class. 
-Assign a value to this constant your path, where situated picture what you want upload to site. 
-For example: public const string filePath = ***"C:\\Users\\Igor\\Desktop\\forTest.jpg";***
-
-
-
 # ***Running Tests***
 
-### Attention, please!
-----------------------
+Tool → Command Line → Developer Command Prompt
 
-***CheckUploadPhotoTest()***
+Install-Package NUnit -Version 3.13.2
+Install-Package NUnit.Allure -Version 1.2.1.1
+Install-Package NUnit3TestAdapter -Version 3.17.0
+Install-Package Selenium.Support -Version 4.4.0
+Install-Package Selenium.WebDriver -Version 4.4.0
+Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
+Install-Package SeleniumFramework -Version 1.0.6
 
-For running test ***CheckUploadPhotoTest()*** you should have any picture name ***forTest.jpg*** located in "C:\\"; → C:\forTest.jpg   
-        
-
-### It will be fixed with next commits.
 
 
 
