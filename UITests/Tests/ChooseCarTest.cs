@@ -1,12 +1,15 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using SeleniumExtras.PageObjects;
-using System;
 using UITests.PageObjects;
 using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
     class ChooseCarTest
     {
         [SetUp]
@@ -27,11 +30,16 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-     //   [Test]
+        [Test(Author = "Igor_Kadach")]
+        [Category("FindCar")]
+        [Description("Test4")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]
         public void ChooseCart()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
-                        
+
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openCatalogForSearching);
             openCatalogForSearching._showCatalogButton.Click();

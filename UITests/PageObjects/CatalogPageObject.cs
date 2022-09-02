@@ -31,7 +31,6 @@ namespace UITests.PageObjects
         public IWebElement _closeSubscribing { get; set; }
 
 
-
         public bool isMyOfferDisplayed()
         {
             var isMyOfferDisplayed = _myOffer.Displayed;

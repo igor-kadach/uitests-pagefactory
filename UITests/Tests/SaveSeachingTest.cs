@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
@@ -8,6 +11,8 @@ using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
     class SaveSeachingTest
     {
         [SetUp]
@@ -34,7 +39,12 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-     //   [Test]
+        [Test(Author = "Igor_Kadach")]
+        [Category("SavingSearch")]
+        [Description("Test9")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]
         public void SaveSearching()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
@@ -67,8 +77,8 @@ namespace UITests.Tests
             chooseParametrsForSearching._buttonShow.Click();
 
             var saveSearch = new CatalogPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, saveSearch);
-            saveSearch._saveSearchButton.Click();
+            PageFactory.InitElements(_webDriver, saveSearch);            
+            wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._saveSearchButton)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._closeSubscribing)).Click();
 
             var openSearchList = new MainMenuPageObject(_webDriver);
@@ -78,7 +88,6 @@ namespace UITests.Tests
             var isSearhcIsDisplayed = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, isSearhcIsDisplayed);
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-
             isSearhcIsDisplayed.isSearchIsSaved();
 
             var actualResult = isSearhcIsDisplayed.isSearchIsSaved();

@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
@@ -10,6 +13,8 @@ using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
     class UploadPhotoTest
     {
         [SetUp]
@@ -31,7 +36,12 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-        [Test]
+        [Test(Author = "Igor_Kadach")]
+        [Category("UploadProto")]
+        [Description("Test10")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]
         public void CheckUploadPhotoTest()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
@@ -59,14 +69,11 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
-           // Thread.Sleep(1500);
             var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName}\\{TestData.fileName}";
-
             addPhoto._buttonChoosePhoto.SendKeys(pathForPhoto);
             Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonSaveChanges)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
-
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
             var checkPhoto = new PersonalAreaPageObject(_webDriver);

@@ -1,14 +1,18 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 using System;
-using System.Threading;
 using UITests.PageObjects;
 using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
     class PaymentIntegrationTest
     {
         [SetUp]
@@ -28,8 +32,13 @@ namespace UITests.Tests
             _webDriver.Quit();
             WebDriverSingleton.SetNull();
         }
-
-     //   [Test]
+       
+        [Test(Author = "Igor_Kadach")]
+        [Category("PaymentByCard")]
+        [Description("Test8")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]
         public void PaymentIntegration()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
@@ -38,27 +47,25 @@ namespace UITests.Tests
 
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
-            signInButtonClick._sighInButton.Click();         
+            signInButtonClick._sighInButton.Click();
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();                    
-                        
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
 
             var goToMyProfile = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, goToMyProfile);
-          
-            wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();         
+            wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
 
             var buyPoints = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, buyPoints);
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._points)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._pointsFor10Rubles)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._payByCard)).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();                       
+            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();
 
             var paymentByCard = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, paymentByCard);

@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using UITests.PageObjects;
@@ -6,6 +9,8 @@ using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
     class InfoLinkTest
     {
         [SetUp]
@@ -26,7 +31,12 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-   //     [Test]
+        [Test(Author = "Igor_Kadach")]
+        [Category("SupportLink")]
+        [Description("Test5")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]
         public void InfoLink()
         {
             var _webDriver = WebDriverSingleton.GetInstance();

@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
@@ -10,6 +13,9 @@ using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
+
     class CarExchangeTest
     {
 
@@ -20,7 +26,6 @@ namespace UITests.Tests
 
             _webDriver.Navigate().GoToUrl(TestData.testUrl);
             _webDriver.Manage().Window.Maximize();
-
         }
 
         [TearDown]
@@ -33,8 +38,13 @@ namespace UITests.Tests
             WebDriverSingleton.SetNull();
         }
 
-  //      [Test]
-
+        [Test(Author = "Igor_Kadach")]
+        [Category("CarExchange")]
+        [Description("Test1")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]  
+        
         public void CarExchange()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
@@ -47,35 +57,30 @@ namespace UITests.Tests
 
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-
             wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
 
             var offersForExchange = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, offersForExchange);
-            offersForExchange._allParametrs.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(offersForExchange._allParametrs)).Click();
             offersForExchange._searchByWords.SendKeys(TestData.exchange);
-
+            Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(offersForExchange._buttonShow)).Click();
 
             var myOfferForExchange = new CatalogPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, myOfferForExchange);
-
             wait.Until(ExpectedConditions.ElementToBeClickable(myOfferForExchange._openForExchange)).Click();
 
             IJavaScriptExecutor js = (IJavaScriptExecutor)_webDriver;
             js.ExecuteScript("window.scrollTo(0, 5000)");
-            
-            wait.Until(ExpectedConditions.ElementToBeClickable(myOfferForExchange._openOffer)).Click();
 
             wait.Until(ExpectedConditions.ElementToBeClickable(myOfferForExchange._openOffer)).Click();
 
             var isMyOfferDisplayed = new CatalogPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, isMyOfferDisplayed);
-            Thread.Sleep(1500);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             isMyOfferDisplayed.isMyOfferDisplayed();
             var actualResult = isMyOfferDisplayed.isMyOfferDisplayed();
 

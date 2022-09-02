@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
@@ -8,6 +11,8 @@ using UITests.TestDatas;
 
 namespace UITests.Tests
 {
+    [TestFixture]
+    [AllureNUnit]
     class LoginTest
     {
         [SetUp]
@@ -16,7 +21,7 @@ namespace UITests.Tests
             var _webDriver = WebDriverSingleton.GetInstance();
 
             _webDriver.Navigate().GoToUrl(TestData.testUrl);
-            _webDriver.Manage().Window.Maximize();
+            _webDriver.Manage().Window.Maximize();      
         }
 
         [TearDown]
@@ -27,8 +32,13 @@ namespace UITests.Tests
             _webDriver.Quit();
             WebDriverSingleton.SetNull();
         }
-
-  //      [Test]
+             
+        [Test(Author = "Igor_Kadach")]
+        [Category("LoginToSite")]
+        [Description("Test7")]
+        [AllureTag("NUnit", "Debug")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureFeature("Core")]
         public void Login()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
@@ -42,11 +52,9 @@ namespace UITests.Tests
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
             wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-
             login._loginInputField.SendKeys(TestData.emailAdress);
             login._passwordInputField.SendKeys(TestData.password);
             login._logInButton.Click();
-
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
             var isProfileDisplayed = new MainMenuPageObject(_webDriver);
@@ -56,7 +64,7 @@ namespace UITests.Tests
             var actualResult = isProfileDisplayed.GetProfileMenu();
             var expectedResult = true;
 
-            Assert.AreEqual(actualResult, expectedResult, "!wrong credential!");
+            Assert.AreEqual(actualResult, expectedResult, "!wrong credential!");           
         }
     }
 }
