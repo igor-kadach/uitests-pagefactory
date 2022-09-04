@@ -37,10 +37,10 @@ Open ***Windows PowerShell*** and type ***command set-executionpolicy RemoteSign
 
 After accepting all policies, install Allure:
 
-In ***Windows PowerShell*** type command ***scoop install allure***
+In ***Windows PowerShell*** type command ***irm get.scoop.sh | iex*** and after dowloading you can install allure, type command ***scoop install allure***
 
 >It nescessary to have in System variables JAVA_HOME path: C:\Program Files\Java\jdk-15.0.1
 
-After running test go to Windows PowerShell and type command ***allure serve PATH to folder Allure-Result*** in cloned project e.x. C:\Users\Igor\source\repos\uitests-pagefactory\uitests-pagefactory\UITests\Allure-Results
+After running test go to Windows PowerShell and type command ***allure serve PATH to folder Allure-Result*** in cloned project e.x. allure serve C:\Users\Igor\source\repos\uitests-pagefactory\UITests\bin\Debug\net5.0\allure-results
 
 to be continued...
