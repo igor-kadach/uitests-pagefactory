@@ -35,8 +35,10 @@ Tool → Command Line → Developer Command Prompt
 * Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
 * Install-Package SeleniumFramework -Version 1.0.6
 
+For runnig tests from command line make the following steps:
 - Open command promt as Administrator. 
-- Change path to ***vstest.console.exe*** file e.x. ***cd C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\TestPlatform*** and type folowing command ***vstest.console.exe (path to dll file with test) e.x.  C:\Users\Igor\source\repos\uitests-pagefactory\UITests\bin\Debug\net5.0\UITests.dll***
+- Change path to file ***vstest.console.exe*** e.x. ***cd C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\TestPlatform*** 
+- Type folowing command ***vstest.console.exe*** (and path to dll file with tests) e.x. ***vstest.console.exe C:\Users\Igor\source\repos\uitests-pagefactory\UITests\bin\Debug\net5.0\UITests.dll***
 
 
 
