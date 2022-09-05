@@ -7,6 +7,8 @@ This project presents automated UI-tests using Page Object and Page Factory patt
   2. Selenium
   3. NUnit
   4. C#
+  5. .Net 6.0
+  6. Allure
 
 
 # ***Getting Started***
@@ -17,10 +19,14 @@ Programming language C#.
 
 # ***Running Tests***
 
-Please, install following packages:
+Please, install following packages to project from Visual Studio:
 
 Tool → Command Line → Developer Command Prompt
 
+* Install-Package Microsoft.NET.TestSdk 17.3.1
+* Install-Package Microsoft.TestPlatform 17.3.1
+* Install-Package MSTest.TestAdapter 2.2.10
+* Install-Package MSTest.TestFramework 2.2.10
 * Install-Package NUnit -Version 3.13.2
 * Install-Package NUnit.Allure -Version 1.2.1.1
 * Install-Package NUnit3TestAdapter -Version 3.17.0
@@ -28,6 +34,10 @@ Tool → Command Line → Developer Command Prompt
 * Install-Package Selenium.WebDriver -Version 4.4.0
 * Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
 * Install-Package SeleniumFramework -Version 1.0.6
+
+- Open command promt as Administrator. 
+- Change path to ***vstest.console.exe*** file e.x. ***cd C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\TestPlatform*** and type folowing command ***vstest.console.exe (path to dll file with test) e.x.  C:\Users\Igor\source\repos\uitests-pagefactory\UITests\bin\Debug\net5.0\UITests.dll***
+
 
 
 # ***Allure***
