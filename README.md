@@ -23,10 +23,10 @@ Please, install following packages to project from Visual Studio:
 
 Tool → Command Line → Developer Command Prompt
 
-* Install-Package Microsoft.NET.TestSdk 17.3.1
-* Install-Package Microsoft.TestPlatform 17.3.1
-* Install-Package MSTest.TestAdapter 2.2.10
-* Install-Package MSTest.TestFramework 2.2.10
+* Install-Package Microsoft.NET.TestSdk -Version 17.3.1
+* Install-Package Microsoft.TestPlatform -Version 17.3.1
+* Install-Package MSTest.TestAdapter -Version 2.2.10
+* Install-Package MSTest.TestFramework -Version 2.2.10
 * Install-Package NUnit -Version 3.13.2
 * Install-Package NUnit.Allure -Version 1.2.1.1
 * Install-Package NUnit3TestAdapter -Version 3.17.0
