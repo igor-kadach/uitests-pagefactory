@@ -1,6 +1,6 @@
 ﻿namespace UITests
 {
-    public static class TestData
+    public static class TestDatas
     {
         public const string testUrl = "https://av.by/";
         public const string emailAdress = "559855@mail.ru";

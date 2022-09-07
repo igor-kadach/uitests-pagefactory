@@ -7,7 +7,7 @@ using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 using System;
 using UITests.PageObjects;
-using UITests.TestDatas;
+using UITests.TestData;
 
 namespace UITests.Tests
 {
@@ -17,19 +17,13 @@ namespace UITests.Tests
     {
         [SetUp]
         public void Setup()
-        {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            _webDriver.Navigate().GoToUrl(TestData.testUrl);
-            _webDriver.Manage().Window.Maximize();
+        {           
+            WebDriverSingleton.GetInstance();
         }
 
         [TearDown]
         public void EndTest()
-        {
-            var _webDriver = WebDriverSingleton.GetInstance();
-            _webDriver.Close();
-            _webDriver.Quit();
+        {          
             WebDriverSingleton.SetNull();
         }
        
@@ -45,35 +39,28 @@ namespace UITests.Tests
 
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
 
-            var signInButtonClick = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, signInButtonClick);
-            signInButtonClick._sighInButton.Click();
+                ///Login to website.
+            Login login = new Login();
+            login.LoginToSite();
 
-            var login = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            login._loginInputField.SendKeys(TestData.emailAdress);
-            login._passwordInputField.SendKeys(TestData.password);
-            login._logInButton.Click();
-
+                ///Open my profile to open adding points menu.
             var goToMyProfile = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, goToMyProfile);
             wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
 
+                ///Open adding points menu to choose payment method and buy points.
             var buyPoints = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, buyPoints);
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._points)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._pointsFor10Rubles)).Click();
+                ///Choose payment method.
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._payByCard)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();
 
-            var paymentByCard = new PersonalAreaPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, paymentByCard);
-            paymentByCard.isLogoDisplayed();
+                ///Check redirect to the payment page.
+            var actualResult = buyPoints.isLogoDisplayed();
 
-            var actualResult = paymentByCard.isLogoDisplayed();
-
-            Assert.IsTrue(actualResult);
+            Assert.IsTrue(actualResult, "!can't redirect to payment method!");
         }
     }
 }

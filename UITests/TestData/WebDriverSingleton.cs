@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using System.Threading;
 
-namespace UITests.TestDatas
+namespace UITests.TestData
 {
     public class WebDriverSingleton
     {
@@ -13,12 +13,15 @@ namespace UITests.TestDatas
             if (_webDriver == null)
             {
                 _webDriver = new ChromeDriver();
+                _webDriver.Navigate().GoToUrl(TestDatas.testUrl);
                 _webDriver.Manage().Window.Maximize();
             }
             return _webDriver;
         }
         public static void SetNull()
         {
+            _webDriver.Close();
+            _webDriver.Quit();
             _webDriver = null;
         }
     }

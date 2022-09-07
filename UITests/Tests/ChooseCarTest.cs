@@ -2,9 +2,12 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
+using System;
 using UITests.PageObjects;
-using UITests.TestDatas;
+using UITests.TestData;
 
 namespace UITests.Tests
 {
@@ -15,18 +18,12 @@ namespace UITests.Tests
         [SetUp]
         public void Setup()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            _webDriver.Navigate().GoToUrl(TestData.testUrl);
-            _webDriver.Manage().Window.Maximize();
+            WebDriverSingleton.GetInstance();         
         }
 
         [TearDown]
         public void EndTest()
-        {
-            var _webDriver = WebDriverSingleton.GetInstance();
-            _webDriver.Close();
-            _webDriver.Quit();
+        {         
             WebDriverSingleton.SetNull();
         }
 
@@ -36,27 +33,25 @@ namespace UITests.Tests
         [AllureTag("NUnit", "Debug")]
         [AllureSeverity(SeverityLevel.critical)]
         [AllureFeature("Core")]
-        public void ChooseCart()
+        public void ChooseCar()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
+                ///Open catalog to entry parametrs for looking.
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openCatalogForSearching);
-            openCatalogForSearching._showCatalogButton.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
+                ///Enter necessary parametrs for looking.     
             var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, chooseParametrsForSearching);
-            chooseParametrsForSearching._carsName.Click();
-            chooseParametrsForSearching._nameAudi.Click();
-            chooseParametrsForSearching._transmissionAutomatic.Click();
-            chooseParametrsForSearching._chooseFuel.Click();
-            chooseParametrsForSearching._benzinFuel.Click();
-            chooseParametrsForSearching._chooseFuel.Click();
-            chooseParametrsForSearching._buttonShow.Click();
+            chooseParametrsForSearching.EnterParametrsForSearching();
 
+                ///Check if necessary car was found.
             var findCarByParametrs = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, findCarByParametrs);
-            findCarByParametrs.GetNameOfCar();
 
             var actualResult = findCarByParametrs.GetNameOfCar();
             var expectedResult = "Audi";

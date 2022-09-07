@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using UITests.TestDatas;
+using UITests.TestData;
 
 namespace UITests.PageObjects
 {
@@ -19,7 +19,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//*[name()='path' and contains(@d,'M12 18a6 6')]")]
         public IWebElement _profile { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//a[@class='button button--secondary button--block']")]
+        [FindsBy(How = How.XPath, Using = "//a[@class='button button--secondary button--block']//span[@class='button__text']")]
         public IWebElement _showCatalogButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Audi')]")]

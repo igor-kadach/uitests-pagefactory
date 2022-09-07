@@ -28,6 +28,9 @@ namespace UITests.PageObjects
         public IWebElement _applyButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='set-header__side']//span[contains(text(),'Выйти')]")]
-        public IWebElement _exitButton { get; set; }            
+        public IWebElement _exitButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[@class='header__logo-wrap']")]
+        public IWebElement _logoButton { get; set; }        
     }
 }
