@@ -3,13 +3,10 @@ using SeleniumExtras.PageObjects;
 
 namespace UITests.PageObjects
 {
-    class SettingsPageObject
+    class SettingsPageObject : BasePageObject
     {
-        private IWebDriver _webDriver;
-
-        public SettingsPageObject(IWebDriver webDriver)
+        public SettingsPageObject(IWebDriver webDriver) : base(webDriver)
         {
-            _webDriver = webDriver;
         }
 
         [FindsBy(How = How.XPath, Using = "//a[@href='/profile/settings/password']//span[contains(text(),'Изменить')]")]

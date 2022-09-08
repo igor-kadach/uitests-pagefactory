@@ -1,17 +1,12 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using UITests.TestData;
-
 
 namespace UITests.PageObjects
 {
-    class PersonalAreaPageObject
-    {
-        private IWebDriver _webDriver;
-    
-        public PersonalAreaPageObject(IWebDriver webDriver)
+    class PersonalAreaPageObject : BasePageObject
+    {    
+        public PersonalAreaPageObject(IWebDriver webDriver) : base(webDriver)
         {
-            _webDriver = webDriver;
         }
 
         [FindsBy(How = How.XPath, Using = "//a[@href='/profile/bookmarks']")]
@@ -81,8 +76,7 @@ namespace UITests.PageObjects
             var isSearchIsSaved = _nameOfSearching.Displayed;
 
             return isSearchIsSaved;
-        }
-               
+        }               
 
         public bool isLogoDisplayed()
         {

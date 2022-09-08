@@ -3,13 +3,10 @@ using SeleniumExtras.PageObjects;
 
 namespace UITests.PageObjects
 {
-    class CatalogPageObject
+    class CatalogPageObject : BasePageObject
     {
-        private IWebDriver _webDriver;
-
-        public CatalogPageObject(IWebDriver webDriver)
+        public CatalogPageObject(IWebDriver webDriver) : base(webDriver)
         {
-            _webDriver = webDriver;
         }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='listing__items']//div[1]//div[1]//div[5]//button[1]//*[name()='svg']//*[name()='path' and contains(@class,'fill')]")]
@@ -29,7 +26,6 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//div[@class='modal modal--active']//*[name()='path' and contains(@d,'M13.414 12')]")]
         public IWebElement _closeSubscribing { get; set; }
-
 
         public bool isMyOfferDisplayed()
         {

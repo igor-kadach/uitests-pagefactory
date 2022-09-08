@@ -3,13 +3,10 @@ using SeleniumExtras.PageObjects;
 
 namespace UITests.PageObjects
 {
-    public class AuthorizationPageObject
+    public class AuthorizationPageObject : BasePageObject
     {
-        private IWebDriver _webDriver;            
-
-        public AuthorizationPageObject(IWebDriver webDriver)
+        public AuthorizationPageObject(IWebDriver webDriver) : base(webDriver)
         {
-            _webDriver = webDriver;
         }
 
         [FindsBy(How = How.XPath, Using = "//button[contains(text(),'почте или логину')]")]
@@ -50,7 +47,6 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//button[@class='drawer__close']")]
         public IWebElement _closeAuthWondow { get; set; }
-
 
         public bool IsErrorMessageDisplayed()
         {

@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.PageObjects;
 using UITests.PageObjects;
 using UITests.TestData;
 
@@ -11,17 +10,17 @@ namespace UITests.Tests
     [TestFixture]
     [AllureNUnit]
     class InstagramIntegrationTest
-    {        
+    {
 
         [SetUp]
         public void Setup()
-        {         
+        {
             WebDriverSingleton.GetInstance();
         }
 
         [TearDown]
         public void EndTest()
-        {         
+        {
             WebDriverSingleton.SetNull();
         }
 
@@ -35,16 +34,15 @@ namespace UITests.Tests
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
-                ///Click to instagram link.
+            // WHEN: Click to instagram link.
             var linkIsAvailable = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, linkIsAvailable);
             linkIsAvailable._goToInstagram.Click();
 
-                ///Check redirect to instagram.
+            // THEN: Check redirect to instagram.
             var actualResult = linkIsAvailable.GetInstagramUrl();
             var expectedResult = "https://www.instagram.com/insta_avby/";
 
-            Assert.AreEqual(expectedResult, actualResult, "!can't redirect to instagram!");                   
+            Assert.AreEqual(expectedResult, actualResult, "!can't redirect to instagram!");
         }
     }
 }

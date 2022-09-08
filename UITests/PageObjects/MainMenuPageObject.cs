@@ -1,16 +1,12 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using UITests.TestData;
 
 namespace UITests.PageObjects
 {
-    class MainMenuPageObject
-    {
-        private IWebDriver _webDriver;
-       
-        public MainMenuPageObject(IWebDriver webDriver)
+    class MainMenuPageObject : BasePageObject
+    {       
+        public MainMenuPageObject(IWebDriver webDriver) : base(webDriver)
         {
-            _webDriver = webDriver;
         }
 
         [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Войти')]")]
@@ -19,7 +15,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//*[name()='path' and contains(@d,'M12 18a6 6')]")]
         public IWebElement _profile { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//a[@class='button button--secondary button--block']//span[@class='button__text']")]
+        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Показать')]")]
         public IWebElement _showCatalogButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Audi')]")]
@@ -46,13 +42,11 @@ namespace UITests.PageObjects
 
             return userName;
         }
-
         public string GetNameOfCar()
         {
             var nameOfCar = _nameOfCar.Text;
             return nameOfCar;
         }
-
         public string GetInstagramUrl()
         {
             _webDriver.SwitchTo().Window(_webDriver.WindowHandles[1]);
@@ -61,7 +55,6 @@ namespace UITests.PageObjects
 
             return url;
         }
-
         public bool IsLinkEnable()
         {
             var isLinkEnable = _infoEmail.Enabled;

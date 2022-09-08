@@ -3,17 +3,13 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 using System;
-using UITests.TestData;
 
 namespace UITests.PageObjects
 {
-    class ParametrsForSearchingPageObject
+    class ParametrsForSearchingPageObject : BasePageObject
     {
-        private IWebDriver _webDriver;
-
-        public ParametrsForSearchingPageObject(IWebDriver webDriver)
+        public ParametrsForSearchingPageObject(IWebDriver webDriver) : base(webDriver)
         {
-            _webDriver = webDriver;
         }
 
         [FindsBy(How = How.XPath, Using = "//button[@title='Марка']")]
@@ -43,19 +39,17 @@ namespace UITests.PageObjects
 
         public void EnterParametrsForSearching()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
 
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, chooseParametrsForSearching);
-            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._carsName)).Click();
-            chooseParametrsForSearching._nameAudi.Click();
-            chooseParametrsForSearching._transmissionAutomatic.Click();
-            chooseParametrsForSearching._chooseFuel.Click();
-            chooseParametrsForSearching._benzinFuel.Click();
-            chooseParametrsForSearching._chooseFuel.Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._buttonShow)).Click();
+            var parametrs = new ParametrsForSearchingPageObject(_webDriver);
+
+            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._carsName)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._nameAudi)).Click();
+            parametrs._transmissionAutomatic.Click();
+            parametrs._chooseFuel.Click();
+            parametrs._benzinFuel.Click();
+            parametrs._chooseFuel.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShow)).Click();
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
         }
     }

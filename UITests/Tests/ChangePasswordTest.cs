@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Threading;
@@ -19,7 +18,7 @@ namespace UITests.Tests
     {
         [SetUp]
         public void Setup()
-        {           
+        {
             WebDriverSingleton.GetInstance();
         }
 
@@ -29,40 +28,34 @@ namespace UITests.Tests
             var _webDriver = WebDriverSingleton.GetInstance();
 
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
-                ///Close authWindow to sighIn again.
+            // Close authWindow to sighIn again.
             var closeAuthWindow = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, closeAuthWindow);
             closeAuthWindow._closeAuthWondow.Click();
-                ///Press button SighIn.
+            // Press button SighIn.
             var signInButtonClick = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
-                ///Choose method by email and enter new credentials.
+            // Choose method by email and enter new credentials.
             var login = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();     
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
             login._loginInputField.SendKeys(TestDatas.emailAdress);
             login._passwordInputField.SendKeys(TestDatas.newPasswordForTest);
             login._logInButton.Click();
-                ///Go to my profile to open settings.
+            // Go to my profile to open settings.
             var goToMyProfile = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, goToMyProfile);
             Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
-                ///Open settings to change password.
+            // Open settings to change password.
             var openSetting = new PersonalAreaPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, openSetting);
             wait.Until(ExpectedConditions.ElementToBeClickable(openSetting._settingsButton)).Click();
-                ///Change password fron new to old password back.
+            // Change password fron new to old password back.
             var changePass = new SettingsPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, changePass);
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._changePassword)).Click();
             changePass._oldPassworField.SendKeys(TestDatas.newPasswordForTest);
             changePass._newPasswordField.SendKeys(TestDatas.password);
-                ///Save changes.
+            // Save changes.
             changePass._applyButton.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._exitButton)).Click();
-          
+
             WebDriverSingleton.SetNull();
         }
 
@@ -76,39 +69,36 @@ namespace UITests.Tests
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));        
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
 
-                ///Login to website.
-            Login login = new Login();
+            // GIVEN: User login to website.
+            var login = new Login();
             login.LoginToSite();
 
-                ///Open my profile to open settings.
+            // WHEN: User open my profile to open settings.
             var goToMyProfile = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, goToMyProfile);
             wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
 
-                ///Open settings to change password.
+            // THEN: User open settings to change password.
             var openSetting = new PersonalAreaPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, openSetting);
             wait.Until(ExpectedConditions.ElementToBeClickable(openSetting._settingsButton)).Click();
 
-                ///Change old password to new.
+            // THEN: User change old password to new.
             var changePass = new SettingsPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, changePass);
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._changePassword)).Click();
             changePass._oldPassworField.SendKeys(TestDatas.password);
             changePass._newPasswordField.SendKeys(TestDatas.newPasswordForTest);
-                ///Save changes.
+
+            // AND: Save changes.
             changePass._applyButton.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._exitButton)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._logoButton)).Click();
-                        
-                ///Try to login with old password.
+
+            // THEN: Try to login with old password.
             login.LoginToSite();
-                       
-                ///Error message statement check. 
+
+            // AND: Error message statement check. 
             var loginWithOldPass = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, loginWithOldPass);
 
             var actualResult = loginWithOldPass.IsErrorMessageDisplayed();
             var expectedResult = true;
