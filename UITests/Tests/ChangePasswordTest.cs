@@ -8,7 +8,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.Threading;
 using UITests.PageObjects;
-using UITests.TestDatas;
+using UITests.TestData;
 
 
 namespace UITests.Tests
@@ -17,14 +17,10 @@ namespace UITests.Tests
     [AllureNUnit]
     class ChangePasswordTest
     {
-
         [SetUp]
         public void Setup()
-        {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            _webDriver.Navigate().GoToUrl(TestData.testUrl);
-            _webDriver.Manage().Window.Maximize();
+        {           
+            WebDriverSingleton.GetInstance();
         }
 
         [TearDown]
@@ -33,40 +29,43 @@ namespace UITests.Tests
             var _webDriver = WebDriverSingleton.GetInstance();
 
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
-
+                ///Close authWindow to sighIn again.
+            var closeAuthWindow = new AuthorizationPageObject(_webDriver);
+            PageFactory.InitElements(_webDriver, closeAuthWindow);
+            closeAuthWindow._closeAuthWondow.Click();
+                ///Press button SighIn.
             var signInButtonClick = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, signInButtonClick);
             signInButtonClick._sighInButton.Click();
-
+                ///Choose method by email and enter new credentials.
             var login = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byPhoneAfterChangePass)).Click();
-            login._phoneFieldAfterChagePass.SendKeys(TestData.phoneNumber);
-            login._newPassAfterChangePass.SendKeys(TestData.newPasswordForTest);
+            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();     
+            login._loginInputField.SendKeys(TestDatas.emailAdress);
+            login._passwordInputField.SendKeys(TestDatas.newPasswordForTest);
             login._logInButton.Click();
-
+                ///Go to my profile to open settings.
             var goToMyProfile = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, goToMyProfile);
             Thread.Sleep(2000);
-            goToMyProfile._profile.Click();
-
+            wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
+                ///Open settings to change password.
             var openSetting = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openSetting);
             wait.Until(ExpectedConditions.ElementToBeClickable(openSetting._settingsButton)).Click();
-
+                ///Change password fron new to old password back.
             var changePass = new SettingsPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, changePass);
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._changePassword)).Click();
-            changePass._oldPassworField.SendKeys(TestData.newPasswordForTest);
-            changePass._newPasswordField.SendKeys(TestData.password);
+            changePass._oldPassworField.SendKeys(TestDatas.newPasswordForTest);
+            changePass._newPasswordField.SendKeys(TestDatas.password);
+                ///Save changes.
             changePass._applyButton.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._exitButton)).Click();
-
-            _webDriver.Close();
-            _webDriver.Quit();
+          
             WebDriverSingleton.SetNull();
         }
-        
+
         [Test(Author = "Igor_Kadach")]
         [Category("SampleTag")]
         [Description("PasswordChanging")]
@@ -77,49 +76,41 @@ namespace UITests.Tests
         {
             var _webDriver = WebDriverSingleton.GetInstance();
 
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));        
 
-            var signInButtonClick = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, signInButtonClick);
-            signInButtonClick._sighInButton.Click();
+                ///Login to website.
+            Login login = new Login();
+            login.LoginToSite();
 
-            var login = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            login._loginInputField.SendKeys(TestData.emailAdress);
-            login._passwordInputField.SendKeys(TestData.password);
-            login._logInButton.Click();
-
+                ///Open my profile to open settings.
             var goToMyProfile = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, goToMyProfile);
             wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
 
+                ///Open settings to change password.
             var openSetting = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openSetting);
             wait.Until(ExpectedConditions.ElementToBeClickable(openSetting._settingsButton)).Click();
 
+                ///Change old password to new.
             var changePass = new SettingsPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, changePass);
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._changePassword)).Click();
-            changePass._oldPassworField.SendKeys(TestData.password);
-            changePass._newPasswordField.SendKeys(TestData.newPasswordForTest);
+            changePass._oldPassworField.SendKeys(TestDatas.password);
+            changePass._newPasswordField.SendKeys(TestDatas.newPasswordForTest);
+                ///Save changes.
             changePass._applyButton.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._exitButton)).Click();
-
+            wait.Until(ExpectedConditions.ElementToBeClickable(changePass._logoButton)).Click();
+                        
+                ///Try to login with old password.
+            login.LoginToSite();
+                       
+                ///Error message statement check. 
             var loginWithOldPass = new AuthorizationPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, loginWithOldPass);
-            loginWithOldPass._byEmail.Click();
-            loginWithOldPass._loginInputField.SendKeys(TestData.emailAdress);
-            loginWithOldPass._newPasswordFieldForTest.SendKeys(TestData.password);
-            loginWithOldPass._buttonForSubmitNewPassword.Click();
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
-            var errorMessage = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, errorMessage);
-            errorMessage.IsErrorMessageDisplayed();
-
-            var actualResult = errorMessage.IsErrorMessageDisplayed();
-
+            var actualResult = loginWithOldPass.IsErrorMessageDisplayed();
             var expectedResult = true;
 
             Assert.AreEqual(expectedResult, actualResult, "!password wasn't changed!");

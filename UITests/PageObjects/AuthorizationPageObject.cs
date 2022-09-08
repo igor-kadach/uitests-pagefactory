@@ -28,7 +28,7 @@ namespace UITests.PageObjects
         public IWebElement _newPassAfterChangePass { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@name='login']")]
-        public IWebElement _loginInputField { get; set; } //input[@id='authPhone'] //div[@class='drawer__slide drawer__slide--active']//button[@type='button'][contains(text(),'по телефону')]
+        public IWebElement _loginInputField { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@id='loginPassword']")]
         public IWebElement _passwordInputField { get; set; }
@@ -47,6 +47,10 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//div[@class='tabcontent']//button[@type='submit']")]
         public IWebElement _buttonForSubmitNewPassword { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//button[@class='drawer__close']")]
+        public IWebElement _closeAuthWondow { get; set; }
+
 
         public bool IsErrorMessageDisplayed()
         {

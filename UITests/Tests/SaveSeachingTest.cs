@@ -7,7 +7,7 @@ using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 using System;
 using UITests.PageObjects;
-using UITests.TestDatas;
+using UITests.TestData;
 
 namespace UITests.Tests
 {
@@ -15,27 +15,24 @@ namespace UITests.Tests
     [AllureNUnit]
     class SaveSeachingTest
     {
+
         [SetUp]
         public void Setup()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            _webDriver.Navigate().GoToUrl(TestData.testUrl);
-            _webDriver.Manage().Window.Maximize();
+            WebDriverSingleton.GetInstance();
         }
 
         [TearDown]
         public void EndTest()
         {
             var _webDriver = WebDriverSingleton.GetInstance();
-
+                ///Delete saved searches.
             var deleteSearching = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, deleteSearching);
-            deleteSearching._deleteSavedSearching.Click();
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            wait.Until(ExpectedConditions.ElementToBeClickable(deleteSearching._deleteSavedSearching)).Click();
             deleteSearching._acceptDeleting.Click();
 
-            _webDriver.Close();
-            _webDriver.Quit();
             WebDriverSingleton.SetNull();
         }
 
@@ -51,48 +48,39 @@ namespace UITests.Tests
 
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
 
-            var signInButtonClick = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, signInButtonClick);
-            signInButtonClick._sighInButton.Click();
+                ///Login to website.
+            Login login = new Login();
+            login.LoginToSite();
 
-            var login = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            login._loginInputField.SendKeys(TestData.emailAdress);
-            login._passwordInputField.SendKeys(TestData.password);
-            login._logInButton.Click();
-
+                ///Open catalog to entry parametrs for looking.                        
             var openCatalogForSearching = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openCatalogForSearching);
             openCatalogForSearching._showCatalogButton.Click();
 
+                ///Enter necessary parametrs for looking.            
             var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, chooseParametrsForSearching);
-            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._carsName)).Click();
-            chooseParametrsForSearching._nameAudi.Click();
-            chooseParametrsForSearching._transmissionAutomatic.Click();
-            chooseParametrsForSearching._chooseFuel.Click();
-            chooseParametrsForSearching._benzinFuel.Click();
-            chooseParametrsForSearching._chooseFuel.Click();
-            chooseParametrsForSearching._buttonShow.Click();
+            chooseParametrsForSearching.EnterParametrsForSearching();
 
+                ///Save choosen parametrs to favorite searching.
             var saveSearch = new CatalogPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, saveSearch);            
             wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._saveSearchButton)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._closeSubscribing)).Click();
 
+                ///Open saved searches.
             var openSearchList = new MainMenuPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, openSearchList);
             openSearchList._saveSearchList.Click();
 
+                ///Check if saved searche is saved.
             var isSearhcIsDisplayed = new PersonalAreaPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, isSearhcIsDisplayed);
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-            isSearhcIsDisplayed.isSearchIsSaved();
 
             var actualResult = isSearhcIsDisplayed.isSearchIsSaved();
 
-            Assert.IsTrue(actualResult);
+            Assert.IsTrue(actualResult, "!searching is not saved!");
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
+using System;
+using UITests.TestData;
 
 namespace UITests.PageObjects
 {
@@ -34,6 +38,25 @@ namespace UITests.PageObjects
         public IWebElement _allParametrs { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@id='p-32-description']")]
-        public IWebElement _searchByWords { get; set; }               
+        public IWebElement _searchByWords { get; set; }
+
+
+        public void EnterParametrsForSearching()
+        {
+            var _webDriver = WebDriverSingleton.GetInstance();
+
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+
+            var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
+            PageFactory.InitElements(_webDriver, chooseParametrsForSearching);
+            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._carsName)).Click();
+            chooseParametrsForSearching._nameAudi.Click();
+            chooseParametrsForSearching._transmissionAutomatic.Click();
+            chooseParametrsForSearching._chooseFuel.Click();
+            chooseParametrsForSearching._benzinFuel.Click();
+            chooseParametrsForSearching._chooseFuel.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(chooseParametrsForSearching._buttonShow)).Click();
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+        }
     }
 }

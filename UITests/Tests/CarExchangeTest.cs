@@ -2,14 +2,13 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Threading;
 using UITests.PageObjects;
-using UITests.TestDatas;
+using UITests.TestData;
 
 namespace UITests.Tests
 {
@@ -22,22 +21,15 @@ namespace UITests.Tests
         [SetUp]
         public void Setup()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            _webDriver.Navigate().GoToUrl(TestData.testUrl);
-            _webDriver.Manage().Window.Maximize();
+             WebDriverSingleton.GetInstance();                     
         }
 
         [TearDown]
         public void EndTest()
-        {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            _webDriver.Close();
-            _webDriver.Quit();
+        {          
             WebDriverSingleton.SetNull();
         }
-
+        
         [Test(Author = "Igor_Kadach")]
         [Category("CarExchange")]
         [Description("Test1")]
@@ -51,40 +43,32 @@ namespace UITests.Tests
 
             var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
 
-            var signInButtonClick = new MainMenuPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, signInButtonClick);
-            signInButtonClick._sighInButton.Click();
+                ///Login to website.
+            Login login = new Login();
+            login.LoginToSite();           
 
-            var login = new AuthorizationPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, login);
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            login._loginInputField.SendKeys(TestData.emailAdress);
-            login._passwordInputField.SendKeys(TestData.password);
-            login._logInButton.Click();
-
+                ///Open catalog for enter necessary values.
             var offersForExchange = new ParametrsForSearchingPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, offersForExchange);
             wait.Until(ExpectedConditions.ElementToBeClickable(offersForExchange._allParametrs)).Click();
-            offersForExchange._searchByWords.SendKeys(TestData.exchange);
+                ///Enter necessary values and find a car for exchange.
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            offersForExchange._searchByWords.SendKeys(TestDatas.exchange);
             Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(offersForExchange._buttonShow)).Click();
 
+                ///Open the found offer. 
             var myOfferForExchange = new CatalogPageObject(_webDriver);
             PageFactory.InitElements(_webDriver, myOfferForExchange);
             wait.Until(ExpectedConditions.ElementToBeClickable(myOfferForExchange._openForExchange)).Click();
-
-            IJavaScriptExecutor js = (IJavaScriptExecutor)_webDriver;
-            js.ExecuteScript("window.scrollTo(0, 5000)");
-
+                ///And suggest my car for exchange.
             wait.Until(ExpectedConditions.ElementToBeClickable(myOfferForExchange._openOffer)).Click();
-
-            var isMyOfferDisplayed = new CatalogPageObject(_webDriver);
-            PageFactory.InitElements(_webDriver, isMyOfferDisplayed);
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-            isMyOfferDisplayed.isMyOfferDisplayed();
-            var actualResult = isMyOfferDisplayed.isMyOfferDisplayed();
 
-            Assert.IsTrue(actualResult);
+                ///Сhecking if my offer for an exchange has appeared.
+            var actualResult = myOfferForExchange.isMyOfferDisplayed();
+
+            Assert.IsTrue(actualResult, "!offer to exchange is not found!");
         }
     }
 }
