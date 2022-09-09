@@ -1,31 +1,27 @@
-﻿using System;
-using UITests.PageObjects;
-using OpenQA.Selenium.Support.UI;
+﻿using UITests.PageObjects;
 using SeleniumExtras.WaitHelpers;
-using UITests.TestData;
 using System.Threading;
+using UITests.Utils;
 
 namespace UITests
 {
-    public class Login 
+    public class Login
     {
         public void LoginToSite()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
+            var wait = WebDriverWaitUtils.GetWaiter(20);
 
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
-
-            var signInButtonClick = new MainMenuPageObject(_webDriver);
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            var signInButtonClick = new MainMenuPageObject();
+            Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(signInButtonClick._sighInButton)).Click();
 
-            var login = new AuthorizationPageObject(_webDriver);
+            var login = new AuthorizationPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
+            Thread.Sleep(2000);
             login._loginInputField.SendKeys(TestDatas.emailAdress);
             login._passwordInputField.SendKeys(TestDatas.password);
             login._logInButton.Click();
             Thread.Sleep(2000);
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
     }
 }

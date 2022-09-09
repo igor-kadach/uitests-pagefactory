@@ -3,7 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -31,15 +31,12 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void Login()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
             // GIVEN: User login to website.
             var login = new Login();
             login.LoginToSite();
 
             // THEN: Check if my profile icon is dispayed.
-            var isProfileDisplayed = new MainMenuPageObject(_webDriver);
-
+            var isProfileDisplayed = new MainMenuPageObject();
             var actualResult = isProfileDisplayed.GetProfileMenu();
             var expectedResult = true;
 

@@ -3,7 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -31,10 +31,8 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void InfoLink()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
             // WHEN: Go to bottom of site to infolinks and choose support.
-            var goToQuestions = new MainMenuPageObject(_webDriver);
+            var goToQuestions = new MainMenuPageObject();
             goToQuestions._askQuestion.Click();
             goToQuestions._mostPopularQuestions.Click();
 

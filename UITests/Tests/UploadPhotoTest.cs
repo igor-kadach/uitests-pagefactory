@@ -2,13 +2,11 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
 using System.IO;
 using System.Threading;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -36,34 +34,31 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void CheckUploadPhotoTest()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            var wait = WebDriverWaitUtils.GetWaiter(20);
 
             //GIVEN: Login to website.
             var login = new Login();
             login.LoginToSite();
 
             // THEN: Open my profile to open my sale ads.
-            var goToPerosonalArea = new MainMenuPageObject(_webDriver);
+            var goToPerosonalArea = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(goToPerosonalArea._profile)).Click();
 
             // WHEN: Open my ad.
-            var addPhoto = new PersonalAreaPageObject(_webDriver);
+            var addPhoto = new PersonalAreaPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            Thread.Sleep(3000);
 
             // THEN: Add new photo.
             var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName}\\{TestDatas.fileName}";
             addPhoto._buttonChoosePhoto.SendKeys(pathForPhoto);
-            Thread.Sleep(3000);
-
+            Thread.Sleep(5000);
             // THEN: Save adding photo.
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonSaveChanges)).Click();
+            Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 
-            //THEN: Check if photo was added.                
+            // THEN: Check if photo was added.                
             var actualResult = addPhoto.isAddedPhotoDisplayed();
             var expectedResult = true;
 

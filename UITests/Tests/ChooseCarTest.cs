@@ -2,11 +2,9 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -34,21 +32,18 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void ChooseCar()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // WHEN: Open catalog to entry parametrs for looking.
-            var openCatalogForSearching = new MainMenuPageObject(_webDriver);
+            var openCatalogForSearching = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // THEN: Enter necessary parametrs for looking.     
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
+            var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
             chooseParametrsForSearching.EnterParametrsForSearching();
 
             // AND: Check if necessary car was found.
-            var findCarByParametrs = new MainMenuPageObject(_webDriver);
-
+            var findCarByParametrs = new MainMenuPageObject();
             var actualResult = findCarByParametrs.GetNameOfCar();
             var expectedResult = "Audi";
 

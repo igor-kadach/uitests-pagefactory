@@ -2,11 +2,9 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -34,20 +32,18 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void PaymentIntegration()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
             var login = new Login();
             login.LoginToSite();
 
             // WHEN: Open my profile to open adding points menu.
-            var goToMyProfile = new MainMenuPageObject(_webDriver);
+            var goToMyProfile = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
 
             // THEN: Open adding points menu to choose payment method and buy points.
-            var buyPoints = new PersonalAreaPageObject(_webDriver);
+            var buyPoints = new PersonalAreaPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._points)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._pointsFor10Rubles)).Click();
 

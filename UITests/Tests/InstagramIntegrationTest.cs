@@ -3,7 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -32,10 +32,8 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void InstagramIntegration()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
             // WHEN: Click to instagram link.
-            var linkIsAvailable = new MainMenuPageObject(_webDriver);
+            var linkIsAvailable = new MainMenuPageObject();
             linkIsAvailable._goToInstagram.Click();
 
             // THEN: Check redirect to instagram.

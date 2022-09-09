@@ -1,11 +1,16 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using System.Threading;
 
 namespace UITests.PageObjects
 {
     class CatalogPageObject : BasePageObject
     {
         public CatalogPageObject(IWebDriver webDriver) : base(webDriver)
+        {
+        }
+
+        public CatalogPageObject()
         {
         }
 
@@ -29,10 +34,10 @@ namespace UITests.PageObjects
 
         public bool isMyOfferDisplayed()
         {
+            Thread.Sleep(3000);
             var isMyOfferDisplayed = _myOffer.Displayed;
-
             return isMyOfferDisplayed;
-        }        
+        }
     }
 }
 

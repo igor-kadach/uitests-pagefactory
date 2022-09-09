@@ -4,8 +4,12 @@ using SeleniumExtras.PageObjects;
 namespace UITests.PageObjects
 {
     class MainMenuPageObject : BasePageObject
-    {       
+    {
         public MainMenuPageObject(IWebDriver webDriver) : base(webDriver)
+        {
+        }
+
+        public MainMenuPageObject()
         {
         }
 
@@ -39,7 +43,6 @@ namespace UITests.PageObjects
         public bool GetProfileMenu()
         {
             var userName = _profile.Displayed;
-
             return userName;
         }
         public string GetNameOfCar()
@@ -52,15 +55,13 @@ namespace UITests.PageObjects
             _webDriver.SwitchTo().Window(_webDriver.WindowHandles[1]);
 
             var url = _webDriver.Url;
-
             return url;
         }
         public bool IsLinkEnable()
         {
             var isLinkEnable = _infoEmail.Enabled;
-
             return isLinkEnable;
-        }        
+        }
     }
 }
 

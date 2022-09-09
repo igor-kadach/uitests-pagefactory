@@ -2,12 +2,10 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
 using System.Threading;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -24,13 +22,10 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
-            // Delete saved bookmarks.            
-            var deleteBookmark = new PersonalAreaPageObject(_webDriver);
-            wait.Until(ExpectedConditions.ElementToBeClickable(deleteBookmark._deleteBookmark)).Click();
-
+            // Delete saved bookmarks.   
+            var deleteBookmarks = new PersonalAreaPageObject();
+            deleteBookmarks.DeleteSavedBoormarks();
+            Thread.Sleep(2000);
             WebDriverSingleton.SetNull();
         }
 
@@ -42,39 +37,34 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void CheckFavorite()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
             var login = new Login();
             login.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.
-            var openCatalogForSearching = new MainMenuPageObject(_webDriver);
+            var openCatalogForSearching = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // THEN: Enter necessary parametrs for looking.         
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
+            var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
             chooseParametrsForSearching.EnterParametrsForSearching();
 
             // THEN: Add founded car to favorite bookmarks.
-            var addToBookmarks = new CatalogPageObject(_webDriver);
+            var addToBookmarks = new CatalogPageObject();
             Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(addToBookmarks._bookmark)).Click();
 
             // AND: Open my profile to open favorite bookmarks.
-            var profile = new MainMenuPageObject(_webDriver);
+            var profile = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(profile._profile)).Click();
 
             // THEN: Open bookmarks.
-            var openBookmarks = new PersonalAreaPageObject(_webDriver);
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            var openBookmarks = new PersonalAreaPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(openBookmarks._bookmarks)).Click();
 
             // AND: Check if car was added to bookmarks.
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-
             var actualResult = openBookmarks.IsAudiDispayed();
             var expectedResult = true;
 

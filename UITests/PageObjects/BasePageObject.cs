@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using UITests.Utils;
 
 namespace UITests.PageObjects
 {
@@ -12,5 +13,10 @@ namespace UITests.PageObjects
             PageFactory.InitElements(webDriver, this);
         }
 
+        public BasePageObject()
+        {
+            _webDriver = WebDriverSingleton.GetInstance();
+            PageFactory.InitElements(_webDriver, this);
+        }
     }
 }

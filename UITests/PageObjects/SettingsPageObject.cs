@@ -9,6 +9,10 @@ namespace UITests.PageObjects
         {
         }
 
+        public SettingsPageObject()
+        {
+        }
+
         [FindsBy(How = How.XPath, Using = "//a[@href='/profile/settings/password']//span[contains(text(),'Изменить')]")]
         public IWebElement _changePassword { get; set; }
 
@@ -28,6 +32,6 @@ namespace UITests.PageObjects
         public IWebElement _exitButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//a[@class='header__logo-wrap']")]
-        public IWebElement _logoButton { get; set; }        
+        public IWebElement _logoButton { get; set; }
     }
 }

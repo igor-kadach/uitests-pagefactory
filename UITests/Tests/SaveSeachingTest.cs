@@ -2,12 +2,10 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
 using System.Threading;
 using UITests.PageObjects;
-using UITests.TestData;
+using UITests.Utils;
 
 namespace UITests.Tests
 {
@@ -25,13 +23,10 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
             // Delete saved searches.
-            var deleteSearching = new PersonalAreaPageObject(_webDriver);
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
-            wait.Until(ExpectedConditions.ElementToBeClickable(deleteSearching._deleteSavedSearching)).Click();
-            deleteSearching._acceptDeleting.Click();
-
+            var deleteSearches = new PersonalAreaPageObject();
+            deleteSearches.DeleteSavedSerches();
+            Thread.Sleep(2000);
             WebDriverSingleton.SetNull();
         }
 
@@ -43,36 +38,32 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void SaveSearching()
         {
-            var _webDriver = WebDriverSingleton.GetInstance();
-
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(20));
+            var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User Login to website.
             var login = new Login();
             login.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.                        
-            var openCatalogForSearching = new MainMenuPageObject(_webDriver);
+            var openCatalogForSearching = new MainMenuPageObject();
             Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // Then: Enter necessary parametrs for looking.            
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject(_webDriver);
+            var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
             chooseParametrsForSearching.EnterParametrsForSearching();
 
             // AND: Save choosen parametrs to favorite searching.
-            var saveSearch = new CatalogPageObject(_webDriver);
+            var saveSearch = new CatalogPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._saveSearchButton)).Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._closeSubscribing)).Click();
 
             // THEN: Open saved searches.
-            var openSearchList = new MainMenuPageObject(_webDriver);
+            var openSearchList = new MainMenuPageObject();
             openSearchList._saveSearchList.Click();
 
             // AND: Check if saved searche is saved.
-            var isSearhcIsDisplayed = new PersonalAreaPageObject(_webDriver);
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-
+            var isSearhcIsDisplayed = new PersonalAreaPageObject();
             var actualResult = isSearhcIsDisplayed.isSearchIsSaved();
 
             Assert.IsTrue(actualResult, "!searching is not saved!");

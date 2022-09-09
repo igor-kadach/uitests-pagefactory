@@ -1,12 +1,12 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace UITests.TestData
+namespace UITests.Utils
 {
     public class WebDriverSingleton
     {
         private static IWebDriver _webDriver;
-                
+
         public static IWebDriver GetInstance()
         {
             if (_webDriver == null)

@@ -1,11 +1,18 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
+using System.Threading;
+using UITests.Utils;
 
 namespace UITests.PageObjects
 {
     class PersonalAreaPageObject : BasePageObject
-    {    
+    {
         public PersonalAreaPageObject(IWebDriver webDriver) : base(webDriver)
+        {
+        }
+
+        public PersonalAreaPageObject()
         {
         }
 
@@ -59,30 +66,44 @@ namespace UITests.PageObjects
 
         public bool IsAudiDispayed()
         {
-          var IsBookmarkDisplayed = _nameAudi.Displayed;
-
+            var IsBookmarkDisplayed = _nameAudi.Displayed;
             return IsBookmarkDisplayed;
-        } 
+        }
 
         public bool isAddedPhotoDisplayed()
         {
+            Thread.Sleep(3000);
             var isAddedPhotoDisplayed = _findAddedPhoto.Displayed;
-
             return isAddedPhotoDisplayed;
         }
 
         public bool isSearchIsSaved()
         {
             var isSearchIsSaved = _nameOfSearching.Displayed;
-
             return isSearchIsSaved;
-        }               
+        }
 
         public bool isLogoDisplayed()
         {
             var isLogoDisplayed = _logoOfPayment.Displayed;
-
             return isLogoDisplayed;
+        }
+
+        public void DeleteSavedSerches()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+
+            var deleteSearching = new PersonalAreaPageObject();
+            wait.Until(ExpectedConditions.ElementToBeClickable(deleteSearching._deleteSavedSearching)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(deleteSearching._acceptDeleting)).Click();
+        }
+
+        public void DeleteSavedBoormarks()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+
+            var deleteBookmark = new PersonalAreaPageObject();
+            wait.Until(ExpectedConditions.ElementToBeClickable(deleteBookmark._deleteBookmark)).Click();
         }
     }
 }
