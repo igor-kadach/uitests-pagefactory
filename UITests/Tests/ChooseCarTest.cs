@@ -34,15 +34,15 @@ namespace UITests.Tests
         {
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
-            // WHEN: Open catalog to entry parametrs for looking.
+            // GIVEN: Open catalog to entry parametrs for looking.
             var openCatalogForSearching = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
-            // THEN: Enter necessary parametrs for looking.     
+            // WHEN: Enter necessary parametrs for looking.     
             var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
             chooseParametrsForSearching.EnterParametrsForSearching();
 
-            // AND: Check if necessary car was found.
+            // THEN: Check if necessary car was found.
             var findCarByParametrs = new MainMenuPageObject();
             var actualResult = findCarByParametrs.GetNameOfCar();
             var expectedResult = "Audi";

@@ -40,11 +40,11 @@ namespace UITests.Tests
             var login = new Login();
             login.LoginToSite();
 
-            // THEN: Open my profile to open my sale ads.
+            // WHEN: Open my profile to open my sale ads.
             var goToPerosonalArea = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(goToPerosonalArea._profile)).Click();
 
-            // WHEN: Open my ad.
+            // THEN: Open my ad.
             var addPhoto = new PersonalAreaPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
             Thread.Sleep(3000);

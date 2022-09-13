@@ -42,11 +42,11 @@ namespace UITests.Tests
             var login = new Login();
             login.LoginToSite();
 
-            // THEN: Open catalog for enter necessary values.
+            // WHEN: Open catalog for enter necessary values.
             var parametrs = new ParametrsForSearchingPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._allParametrs)).Click();
 
-            // WHEN: Enter necessary values and find a car for exchange.
+            // THEN: Enter necessary values and find a car for exchange.
             parametrs._searchByWords.SendKeys(TestDatas.exchange);
             Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShow)).Click();

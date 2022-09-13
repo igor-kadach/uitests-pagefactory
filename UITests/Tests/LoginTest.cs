@@ -35,7 +35,7 @@ namespace UITests.Tests
             var login = new Login();
             login.LoginToSite();
 
-            // THEN: Check if my profile icon is dispayed.
+            // WHEN: Check if my profile icon is dispayed.
             var isProfileDisplayed = new MainMenuPageObject();
             var actualResult = isProfileDisplayed.GetProfileMenu();
             var expectedResult = true;

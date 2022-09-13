@@ -32,11 +32,11 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void InstagramIntegration()
         {
-            // WHEN: Click to instagram link.
+            // GIVEN: Click to instagram link.
             var linkIsAvailable = new MainMenuPageObject();
             linkIsAvailable._goToInstagram.Click();
 
-            // THEN: Check redirect to instagram.
+            // WHEN: Check redirect to instagram.
             var actualResult = linkIsAvailable.GetInstagramUrl();
             var expectedResult = "https://www.instagram.com/insta_avby/";
 

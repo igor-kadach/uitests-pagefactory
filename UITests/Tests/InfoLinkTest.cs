@@ -31,12 +31,12 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void InfoLink()
         {
-            // WHEN: Go to bottom of site to infolinks and choose support.
+            // GIVEN: Go to bottom of site to infolinks and choose support.
             var goToQuestions = new MainMenuPageObject();
             goToQuestions._askQuestion.Click();
             goToQuestions._mostPopularQuestions.Click();
 
-            // THEN: Check if link to support is enable.
+            // WHEN: Check if link to support is enable.
             var actualResult = goToQuestions.IsLinkEnable();
 
             Assert.IsTrue(actualResult, "!can't redirect to support!");
