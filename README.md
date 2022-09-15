@@ -29,6 +29,7 @@ Tool → Command Line → Developer Command Prompt
 * Install-Package Microsoft.TestPlatform -Version 17.3.1
 * Install-Package NUnit -Version 3.13.2
 * Install-Package NUnit.Allure -Version 1.2.1.1
+* Install-Package Nunit3TestAdapter -Version 4.2.1
 * Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
 * Install-Package SeleniumFramework -Version 1.0.6
 
