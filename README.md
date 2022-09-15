@@ -23,15 +23,12 @@ Please, install following packages to project from Visual Studio:
 
 Tool → Command Line → Developer Command Prompt
 
+* Install-Package coverlet.collector -Version(3.0.2)
+* Install-Package DotNetSeleniumExtras.PageObjects.Core -Version(4.3.0)
 * Install-Package Microsoft.NET.TestSdk -Version 17.3.1
 * Install-Package Microsoft.TestPlatform -Version 17.3.1
-* Install-Package MSTest.TestAdapter -Version 2.2.10
-* Install-Package MSTest.TestFramework -Version 2.2.10
 * Install-Package NUnit -Version 3.13.2
 * Install-Package NUnit.Allure -Version 1.2.1.1
-* Install-Package NUnit3TestAdapter -Version 3.17.0
-* Install-Package Selenium.Support -Version 4.4.0
-* Install-Package Selenium.WebDriver -Version 4.4.0
 * Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
 * Install-Package SeleniumFramework -Version 1.0.6
 
