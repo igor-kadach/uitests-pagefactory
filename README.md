@@ -14,7 +14,7 @@ This project presents automated UI-tests using Page Object and Page Factory patt
 # ***Getting Started***
 
 
-The project is made in Microsoft Visual Studio Community 2019 Version 16.11.2.
+The project is made in Microsoft Visual Studio Community 2022 Version 17.3.3.
 Programming language C#.
 
 # ***Running Tests***
