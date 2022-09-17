@@ -19,19 +19,6 @@ Programming language C#.
 
 # ***Running Tests***
 
-Please, install following packages to project from Visual Studio:
-
-Tool → Command Line → Developer Command Prompt
-
-* Install-Package coverlet.collector -Version(3.0.2)
-* Install-Package DotNetSeleniumExtras.PageObjects.Core -Version(4.3.0)
-* Install-Package Microsoft.NET.TestSdk -Version 17.3.1
-* Install-Package Microsoft.TestPlatform -Version 17.3.1
-* Install-Package NUnit -Version 3.13.2
-* Install-Package NUnit.Allure -Version 1.2.1.1
-* Install-Package Nunit3TestAdapter -Version 4.2.1
-* Install-Package Selenium.WebDriver.ChromeDriver -Version 104.0.5112.7900
-* Install-Package SeleniumFramework -Version 1.0.6
 
 For runnig tests from command line make the following steps:
 - Open command promt as Administrator. 
