@@ -1,18 +1,11 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using SeleniumExtras.WaitHelpers;
-using System.Threading;
-using UITests.Utils;
 
 namespace UITests.PageObjects
 {
     class PersonalAreaPageObject : BasePageObject
     {
-        public PersonalAreaPageObject(IWebDriver webDriver) : base(webDriver)
-        {
-        }
-
-        public PersonalAreaPageObject()
+        public PersonalAreaPageObject() : base()
         {
         }
 
@@ -22,7 +15,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Audi')]")]
         public IWebElement _nameAudi { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Изменить')]")]
+        [FindsBy(How = How.CssSelector, Using = "a[class='mycard__action-control'] span")]
         public IWebElement _buttonChange { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@id='p-21-photo']")]
@@ -40,13 +33,13 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//main[@class='main']//li[1]//a[1]")]
         public IWebElement _points { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'За 10 р.')]")]
+        [FindsBy(How = How.CssSelector, Using = "div:nth-child(2) > button:nth-child(2)")]
         public IWebElement _pointsFor10Rubles { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Банковской картой')]")]
         public IWebElement _payByCard { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Перейти на платёжный сервис')]")]
+        [FindsBy(How = How.CssSelector, Using = "button[type='submit'] span[class='button__text']")]
         public IWebElement _goToPayService { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//img[@alt='logo']")]
@@ -61,51 +54,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//button[@class='button button--xlink']//*[name()='svg']")]
         public IWebElement _deleteSavedSearching { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Удалить')]")]
+        [FindsBy(How = How.CssSelector, Using = "button[class='button button--action button--large'] span[class='button__text']")]
         public IWebElement _acceptDeleting { get; set; }
-
-        public bool IsAudiDispayed()
-        {
-            var IsBookmarkDisplayed = _nameAudi.Displayed;
-            return IsBookmarkDisplayed;
-        }
-
-        public bool isAddedPhotoDisplayed()
-        {
-            Thread.Sleep(3000);
-            var isAddedPhotoDisplayed = _findAddedPhoto.Displayed;
-            return isAddedPhotoDisplayed;
-        }
-
-        public bool isSearchIsSaved()
-        {
-            var isSearchIsSaved = _nameOfSearching.Displayed;
-            return isSearchIsSaved;
-        }
-
-        public bool isLogoDisplayed()
-        {
-            var isLogoDisplayed = _logoOfPayment.Displayed;
-            return isLogoDisplayed;
-        }
-
-        public void DeleteSavedSerches()
-        {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
-            var deleteSearching = new PersonalAreaPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(deleteSearching._deleteSavedSearching)).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(deleteSearching._acceptDeleting)).Click();
-        }
-
-        public void DeleteSavedBoormarks()
-        {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
-            var deleteBookmark = new PersonalAreaPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(deleteBookmark._deleteBookmark)).Click();
-        }
     }
 }
-
-

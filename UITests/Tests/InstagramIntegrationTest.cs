@@ -3,6 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,10 +13,12 @@ namespace UITests.Tests
     class InstagramIntegrationTest
     {
 
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -37,7 +40,8 @@ namespace UITests.Tests
             linkIsAvailable._goToInstagram.Click();
 
             // WHEN: Check redirect to instagram.
-            var actualResult = linkIsAvailable.GetInstagramUrl();
+            var getInstagramLink = new CommonPageObject(_settings);
+            var actualResult = getInstagramLink.GetInstagramUrl();
             var expectedResult = "https://www.instagram.com/insta_avby/";
 
             Assert.AreEqual(expectedResult, actualResult, "!can't redirect to instagram!");

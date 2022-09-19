@@ -4,6 +4,7 @@ using NUnit.Allure.Core;
 using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,10 +13,12 @@ namespace UITests.Tests
     [AllureNUnit]
     class ChooseCarTest
     {
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -39,12 +42,11 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // WHEN: Enter necessary parametrs for looking.     
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
-            chooseParametrsForSearching.EnterParametrsForSearching();
+            var common = new CommonPageObject(_settings);
+            common.EnterParametrsForSearching();
 
             // THEN: Check if necessary car was found.
-            var findCarByParametrs = new MainMenuPageObject();
-            var actualResult = findCarByParametrs.GetNameOfCar();
+            var actualResult = common.GetNameOfCar();
             var expectedResult = "Audi";
 
             Assert.That(actualResult, Does.Contain(expectedResult), "!wrong results of searching!");

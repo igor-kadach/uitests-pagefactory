@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -13,17 +14,19 @@ namespace UITests.Tests
     [AllureNUnit]
     class ChangePasswordTest
     {
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
         public void EndTest()
         {
             // Change password back to old.
-            var changePassword = new AuthorizationPageObject();
+            var changePassword = new CommonPageObject(_settings);
             changePassword.ChangePasswordBack();
 
             WebDriverSingleton.SetNull();
@@ -40,8 +43,8 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: User open my profile to open settings.
             var goToMyProfile = new MainMenuPageObject();
@@ -54,8 +57,8 @@ namespace UITests.Tests
             // THEN: User change old password to new.
             var changePass = new SettingsPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._changePassword)).Click();
-            changePass._oldPassworField.SendKeys(TestDatas.password);
-            changePass._newPasswordField.SendKeys(TestDatas.newPasswordForTest);
+            changePass._oldPassworField.SendKeys(_settings.Password);
+            changePass._newPasswordField.SendKeys(_settings.NewPasswordForTest);
 
             // AND: Save changes.
             changePass._applyButton.Click();
@@ -64,11 +67,10 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._logoButton)).Click();
 
             // THEN: Try to login with old password.
-            login.LoginToSite();
+            common.LoginToSite();
 
             // AND: Error message statement check. 
-            var loginWithOldPass = new AuthorizationPageObject();
-            var actualResult = loginWithOldPass.IsErrorMessageDisplayed();
+            var actualResult = common.IsErrorMessageDisplayed();
             var expectedResult = true;
 
             Assert.AreEqual(expectedResult, actualResult, "!password wasn't changed!");

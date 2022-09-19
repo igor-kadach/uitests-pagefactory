@@ -6,6 +6,7 @@ using SeleniumExtras.WaitHelpers;
 using System.IO;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -14,10 +15,12 @@ namespace UITests.Tests
     [AllureNUnit]
     class UploadPhotoTest
     {
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -37,8 +40,8 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             //GIVEN: Login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: Open my profile to open my sale ads.
             var goToPerosonalArea = new MainMenuPageObject();
@@ -50,7 +53,7 @@ namespace UITests.Tests
             Thread.Sleep(3000);
 
             // THEN: Add new photo.
-            var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName}\\{TestDatas.fileName}";
+            var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName}\\{_settings.FileName}";
             addPhoto._buttonChoosePhoto.SendKeys(pathForPhoto);
             Thread.Sleep(5000);
             // THEN: Save adding photo.
@@ -58,8 +61,8 @@ namespace UITests.Tests
             Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(addPhoto._buttonChange)).Click();
 
-            // THEN: Check if photo was added.                
-            var actualResult = addPhoto.isAddedPhotoDisplayed();
+            // THEN: Check if photo was added.
+            var actualResult = common.isAddedPhotoDisplayed();
             var expectedResult = true;
 
             Assert.AreEqual(expectedResult, actualResult, "!image not found!");

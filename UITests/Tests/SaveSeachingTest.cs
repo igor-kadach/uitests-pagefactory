@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -14,17 +15,19 @@ namespace UITests.Tests
     class SaveSeachingTest
     {
 
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
         public void EndTest()
         {
             // Delete saved searches.
-            var deleteSearches = new PersonalAreaPageObject();
+            var deleteSearches = new CommonPageObject(_settings);
             deleteSearches.DeleteSavedSerches();
             Thread.Sleep(2000);
             WebDriverSingleton.SetNull();
@@ -41,8 +44,8 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User Login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.                        
             var openCatalogForSearching = new MainMenuPageObject();
@@ -50,8 +53,7 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // Then: Enter necessary parametrs for looking.            
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
-            chooseParametrsForSearching.EnterParametrsForSearching();
+            common.EnterParametrsForSearching();
 
             // AND: Save choosen parametrs to favorite searching.
             var saveSearch = new CatalogPageObject();
@@ -63,8 +65,7 @@ namespace UITests.Tests
             openSearchList._saveSearchList.Click();
 
             // AND: Check if saved searche is saved.
-            var isSearhcIsDisplayed = new PersonalAreaPageObject();
-            var actualResult = isSearhcIsDisplayed.isSearchIsSaved();
+            var actualResult = common.isSearchIsSaved();
 
             Assert.IsTrue(actualResult, "!searching is not saved!");
         }

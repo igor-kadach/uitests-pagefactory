@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -13,17 +14,19 @@ namespace UITests.Tests
     [AllureNUnit]
     class CheckFavoriteTest
     {
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
         public void EndTest()
         {
             // Delete saved bookmarks.   
-            var deleteBookmarks = new PersonalAreaPageObject();
+            var deleteBookmarks = new CommonPageObject(_settings);
             deleteBookmarks.DeleteSavedBoormarks();
             Thread.Sleep(2000);
             WebDriverSingleton.SetNull();
@@ -40,16 +43,15 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.
             var openCatalogForSearching = new MainMenuPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // THEN: Enter necessary parametrs for looking.         
-            var chooseParametrsForSearching = new ParametrsForSearchingPageObject();
-            chooseParametrsForSearching.EnterParametrsForSearching();
+            common.EnterParametrsForSearching();
 
             // THEN: Add founded car to favorite bookmarks.
             var addToBookmarks = new CatalogPageObject();
@@ -65,7 +67,7 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(openBookmarks._bookmarks)).Click();
 
             // AND: Check if car was added to bookmarks.
-            var actualResult = openBookmarks.IsAudiDispayed();
+            var actualResult = common.IsAudiDispayed();
             var expectedResult = true;
 
             Assert.AreEqual(expectedResult, actualResult, "!Audi not found!");

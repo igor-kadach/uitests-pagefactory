@@ -3,6 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -11,10 +12,12 @@ namespace UITests.Tests
     [AllureNUnit]
     class LoginTest
     {
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -32,12 +35,11 @@ namespace UITests.Tests
         public void Login()
         {
             // GIVEN: User login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: Check if my profile icon is dispayed.
-            var isProfileDisplayed = new MainMenuPageObject();
-            var actualResult = isProfileDisplayed.GetProfileMenu();
+            var actualResult = common.GetProfileMenu();
             var expectedResult = true;
 
             Assert.AreEqual(actualResult, expectedResult, "!wrong credential!");

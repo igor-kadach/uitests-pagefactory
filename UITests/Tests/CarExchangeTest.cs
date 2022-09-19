@@ -5,6 +5,7 @@ using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -14,11 +15,12 @@ namespace UITests.Tests
 
     class CarExchangeTest
     {
+        private Settings _settings;
 
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -39,15 +41,15 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: Open catalog for enter necessary values.
             var parametrs = new ParametrsForSearchingPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._allParametrs)).Click();
 
             // THEN: Enter necessary values and find a car for exchange.
-            parametrs._searchByWords.SendKeys(TestDatas.exchange);
+            parametrs._searchByWords.SendKeys(_settings.Exchange);
             Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShow)).Click();
 
@@ -59,11 +61,9 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(myOfferToExchange._openOffer)).Click();
 
             // AND: Сheck if my offer for an exchange has appeared.
-            var actualResult = myOfferToExchange.isMyOfferDisplayed();
+            var actualResult = common.isMyOfferDisplayed();
 
             Assert.IsTrue(actualResult, "!offer to exchange is not found!");
         }
     }
 }
-
-

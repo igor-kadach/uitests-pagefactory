@@ -5,21 +5,17 @@ namespace UITests.PageObjects
 {
     class MainMenuPageObject : BasePageObject
     {
-        public MainMenuPageObject(IWebDriver webDriver) : base(webDriver)
+        public MainMenuPageObject() : base()
         {
         }
 
-        public MainMenuPageObject()
-        {
-        }
-
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Войти')]")]
+        [FindsBy(How = How.CssSelector, Using = "a[rel='nofollow'] span[class='nav__link-text']")]
         public IWebElement _sighInButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//*[name()='path' and contains(@d,'M12 18a6 6')]")]
         public IWebElement _profile { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Показать')]")]
+        [FindsBy(How = How.CssSelector, Using = "a[class='button button--secondary button--block'] span[class='button__text']")]
         public IWebElement _showCatalogButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Audi')]")]
@@ -39,29 +35,5 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//a[@title='Сохранённые поиски']")]
         public IWebElement _saveSearchList { get; set; }
-
-        public bool GetProfileMenu()
-        {
-            var userName = _profile.Displayed;
-            return userName;
-        }
-        public string GetNameOfCar()
-        {
-            var nameOfCar = _nameOfCar.Text;
-            return nameOfCar;
-        }
-        public string GetInstagramUrl()
-        {
-            _webDriver.SwitchTo().Window(_webDriver.WindowHandles[1]);
-
-            var url = _webDriver.Url;
-            return url;
-        }
-        public bool IsLinkEnable()
-        {
-            var isLinkEnable = _infoEmail.Enabled;
-            return isLinkEnable;
-        }
     }
 }
-

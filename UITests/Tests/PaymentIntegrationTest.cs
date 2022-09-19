@@ -4,6 +4,7 @@ using NUnit.Allure.Core;
 using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
 using UITests.PageObjects;
+using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,10 +13,12 @@ namespace UITests.Tests
     [AllureNUnit]
     class PaymentIntegrationTest
     {
+        private Settings _settings;
+
         [SetUp]
         public void Setup()
         {
-            WebDriverSingleton.GetInstance();
+            _settings = SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -35,8 +38,8 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var login = new Login();
-            login.LoginToSite();
+            var common = new CommonPageObject(_settings);
+            common.LoginToSite();
 
             // WHEN: Open my profile to open adding points menu.
             var goToMyProfile = new MainMenuPageObject();
@@ -52,7 +55,7 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();
 
             // THEN: Check redirect to the payment page.
-            var actualResult = buyPoints.isLogoDisplayed();
+            var actualResult = common.isLogoDisplayed();
 
             Assert.IsTrue(actualResult, "!can't redirect to payment method!");
         }
