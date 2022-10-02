@@ -1,16 +1,14 @@
-﻿using System;
-using System.Threading;
-using SeleniumExtras.WaitHelpers;
+﻿using SeleniumExtras.WaitHelpers;
 using UITests.TestData;
-using UITests.Utils;
+using UITests.PageObjects;
 
-namespace UITests.PageObjects
+namespace UITests.Utils
 {
-    public class CommonPageObject : BasePageObject
+    public class Actions : BasePageObject
     {
         private readonly Settings _settings;
 
-        public CommonPageObject(Settings settings) : base()
+        public Actions(Settings settings) : base()
         {
             _settings = settings;
         }
@@ -20,30 +18,31 @@ namespace UITests.PageObjects
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             var signInButtonClick = new MainMenuPageObject();
-            Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(signInButtonClick._sighInButton)).Click();
 
             var login = new AuthorizationPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            Thread.Sleep(2000);
-
             login._loginInputField.SendKeys(_settings.EmailAdress);
             login._passwordInputField.SendKeys(_settings.Password);
             login._logInButton.Click();
-            Thread.Sleep(2000);
         }
 
-        public bool isMyOfferDisplayed()
+        public bool IsMyOfferDisplayed()
         {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+
             var offerDisplayed = new CatalogPageObject();
-            Thread.Sleep(3000);
+            wait.Until(ExpectedConditions.TextToBePresentInElement(offerDisplayed._openOffer, "Предложить"));
             var isMyOfferDisplayed = offerDisplayed._myOffer.Displayed;
             return isMyOfferDisplayed;
         }
 
         public bool IsErrorMessageDisplayed()
         {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+
             var errorMessage = new AuthorizationPageObject();
+            wait.Until(ExpectedConditions.TextToBePresentInElement(errorMessage._errorMessage, "Неверный логин"));
             var isErrorMessageDisplayed = errorMessage._errorMessage.Displayed;
             return isErrorMessageDisplayed;
         }
@@ -60,33 +59,33 @@ namespace UITests.PageObjects
             parametrs._benzinFuel.Click();
             parametrs._chooseFuel.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShow)).Click();
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
         }
 
         public bool IsAudiDispayed()
         {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+
             var getBookmarks = new PersonalAreaPageObject();
-            Thread.Sleep(3000);
+            wait.Until(ExpectedConditions.TextToBePresentInElement(getBookmarks._nameAudi, "Audi"));
             var IsBookmarkDisplayed = getBookmarks._nameAudi.Displayed;
             return IsBookmarkDisplayed;
         }
 
-        public bool isAddedPhotoDisplayed()
+        public bool IsAddedPhotoDisplayed()
         {
             var getAddedPhoto = new PersonalAreaPageObject();
-            Thread.Sleep(3000);
             var isAddedPhotoDisplayed = getAddedPhoto._findAddedPhoto.Displayed;
             return isAddedPhotoDisplayed;
         }
 
-        public bool isSearchIsSaved()
+        public bool IsSearchIsSaved()
         {
             var getSavedSearching = new PersonalAreaPageObject();
             var isSearchIsSaved = getSavedSearching._nameOfSearching.Displayed;
             return isSearchIsSaved;
         }
 
-        public bool isLogoDisplayed()
+        public bool IsLogoDisplayed()
         {
             var getLogo = new PersonalAreaPageObject();
             var isLogoDisplayed = getLogo._logoOfPayment.Displayed;
@@ -112,7 +111,10 @@ namespace UITests.PageObjects
 
         public bool GetProfileMenu()
         {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+
             var getProfile = new MainMenuPageObject();
+            wait.Until(ExpectedConditions.ElementToBeClickable(getProfile._profile));
             var userName = getProfile._profile.Displayed;
             return userName;
         }
@@ -125,7 +127,6 @@ namespace UITests.PageObjects
         public string GetInstagramUrl()
         {
             _webDriver.SwitchTo().Window(_webDriver.WindowHandles[1]);
-            Thread.Sleep(3000);
             var url = _webDriver.Url;
             return url;
         }
@@ -149,13 +150,11 @@ namespace UITests.PageObjects
             // Choose method by email and enter new credentials.
             var login = new AuthorizationPageObject();
             wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            Thread.Sleep(3000);
             login._loginInputField.SendKeys(_settings.EmailAdress);
             login._passwordInputField.SendKeys(_settings.NewPasswordForTest);
             login._logInButton.Click();
             // Go to my profile to open settings.
             var goToMyProfile = new MainMenuPageObject();
-            Thread.Sleep(2000);
             wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
             // Open settings to change password.
             var openSetting = new PersonalAreaPageObject();

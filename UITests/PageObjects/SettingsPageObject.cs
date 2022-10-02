@@ -16,10 +16,7 @@ namespace UITests.PageObjects
         public IWebElement _oldPassworField { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@id='new-password']")]
-        public IWebElement _newPasswordField { get; set; }
-
-        [FindsBy(How = How.XPath, Using = "//main[@class='main']//li[6]//a")]
-        public IWebElement _settingsButton { get; set; }
+        public IWebElement _newPasswordField { get; set; }            
 
         [FindsBy(How = How.CssSelector, Using = "button[type='submit'] span[class='button__text']")]
         public IWebElement _applyButton { get; set; }
@@ -27,7 +24,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.CssSelector, Using = "div[class='set-header__side'] span[class='button__text']")]
         public IWebElement _exitButton { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//a[@class='header__logo-wrap']")]
-        public IWebElement _logoButton { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "div[class='header__logo']")]
+        public IWebElement _logoAVButton { get; set; }
     }
 }

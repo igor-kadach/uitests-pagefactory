@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using SeleniumExtras.WaitHelpers;
-using System.Threading;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -26,10 +25,10 @@ namespace UITests.Tests
         public void EndTest()
         {
             // Change password back to old.
-            var changePassword = new CommonPageObject(_settings);
+            var changePassword = new Actions(_settings);
             changePassword.ChangePasswordBack();
 
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -43,7 +42,7 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var common = new CommonPageObject(_settings);
+            var common = new Actions(_settings);
             common.LoginToSite();
 
             // WHEN: User open my profile to open settings.
@@ -63,8 +62,7 @@ namespace UITests.Tests
             // AND: Save changes.
             changePass._applyButton.Click();
             wait.Until(ExpectedConditions.ElementToBeClickable(changePass._exitButton)).Click();
-            Thread.Sleep(2000);
-            wait.Until(ExpectedConditions.ElementToBeClickable(changePass._logoButton)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(changePass._logoAVButton)).Click();
 
             // THEN: Try to login with old password.
             common.LoginToSite();
@@ -72,7 +70,6 @@ namespace UITests.Tests
             // AND: Error message statement check. 
             var actualResult = common.IsErrorMessageDisplayed();
             var expectedResult = true;
-
             Assert.AreEqual(expectedResult, actualResult, "!password wasn't changed!");
         }
     }

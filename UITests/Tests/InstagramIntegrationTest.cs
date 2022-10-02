@@ -24,7 +24,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -40,10 +40,9 @@ namespace UITests.Tests
             linkIsAvailable._goToInstagram.Click();
 
             // WHEN: Check redirect to instagram.
-            var getInstagramLink = new CommonPageObject(_settings);
+            var getInstagramLink = new Actions(_settings);
             var actualResult = getInstagramLink.GetInstagramUrl();
             var expectedResult = "https://www.instagram.com/insta_avby/";
-
             Assert.AreEqual(expectedResult, actualResult, "!can't redirect to instagram!");
         }
     }

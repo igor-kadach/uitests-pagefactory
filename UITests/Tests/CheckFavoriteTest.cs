@@ -26,10 +26,10 @@ namespace UITests.Tests
         public void EndTest()
         {
             // Delete saved bookmarks.   
-            var deleteBookmarks = new CommonPageObject(_settings);
+            var deleteBookmarks = new Actions(_settings);
             deleteBookmarks.DeleteSavedBoormarks();
             Thread.Sleep(2000);
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -43,7 +43,7 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var common = new CommonPageObject(_settings);
+            var common = new Actions(_settings);
             common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.
@@ -52,10 +52,9 @@ namespace UITests.Tests
 
             // THEN: Enter necessary parametrs for looking.         
             common.EnterParametrsForSearching();
-
+            wait.Until(ExpectedConditions.TextToBePresentInElement(openCatalogForSearching._nameOfCar, "Audi"));
             // THEN: Add founded car to favorite bookmarks.
             var addToBookmarks = new CatalogPageObject();
-            Thread.Sleep(3000);
             wait.Until(ExpectedConditions.ElementToBeClickable(addToBookmarks._bookmark)).Click();
 
             // AND: Open my profile to open favorite bookmarks.
@@ -69,7 +68,6 @@ namespace UITests.Tests
             // AND: Check if car was added to bookmarks.
             var actualResult = common.IsAudiDispayed();
             var expectedResult = true;
-
             Assert.AreEqual(expectedResult, actualResult, "!Audi not found!");
         }
     }

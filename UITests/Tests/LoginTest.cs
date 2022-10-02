@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
 
@@ -23,7 +22,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -35,13 +34,12 @@ namespace UITests.Tests
         public void Login()
         {
             // GIVEN: User login to website.
-            var common = new CommonPageObject(_settings);
+            var common = new Actions(_settings);
             common.LoginToSite();
 
             // WHEN: Check if my profile icon is dispayed.
             var actualResult = common.GetProfileMenu();
             var expectedResult = true;
-
             Assert.AreEqual(actualResult, expectedResult, "!wrong credential!");
         }
     }

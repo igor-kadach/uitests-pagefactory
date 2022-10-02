@@ -9,13 +9,11 @@ namespace UITests.Utils
         public static Settings GetSettings()
         {
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName)
+                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent + "\\FilesForTests")
                 .AddJsonFile("appsettings.json")
                 .Build();
-
             var settings = new Settings();
             config.GetSection("Settings").Bind(settings);
-
             return settings;
         }
     }

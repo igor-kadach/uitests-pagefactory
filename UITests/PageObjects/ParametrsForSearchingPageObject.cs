@@ -18,16 +18,16 @@ namespace UITests.PageObjects
         [FindsBy(How = How.CssSelector, Using = "label[for= 'p-13-transmission_type_1'] span[class='button-group__text']")]
         public IWebElement _transmissionAutomatic { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//button[@name='p-15-engine_type']//span[@class='dropdown-button__value']")]
+        [FindsBy(How = How.XPath, Using = "//button[@name='p-15-engine_type']")]
         public IWebElement _chooseFuel { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//div[@id='p-15-engine_type']//li[1]//label[1]//span[1]")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='p-15-engine_type']//li[1]")]
         public IWebElement _benzinFuel { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Показать')]")]
+        [FindsBy(How = How.CssSelector, Using = "button[class='button button--secondary button--block'] span[class='button__text']")] 
         public IWebElement _buttonShow { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//span[contains(text(),'Все параметры')]")]
+        [FindsBy(How = How.XPath, Using = "//span[normalize-space()='Все параметры']")]
         public IWebElement _allParametrs { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//input[@id='p-32-description']")]

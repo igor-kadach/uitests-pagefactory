@@ -24,7 +24,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -38,7 +38,7 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User login to website.
-            var common = new CommonPageObject(_settings);
+            var common = new Actions(_settings);
             common.LoginToSite();
 
             // WHEN: Open my profile to open adding points menu.
@@ -55,8 +55,7 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();
 
             // THEN: Check redirect to the payment page.
-            var actualResult = common.isLogoDisplayed();
-
+            var actualResult = common.IsLogoDisplayed();
             Assert.IsTrue(actualResult, "!can't redirect to payment method!");
         }
     }

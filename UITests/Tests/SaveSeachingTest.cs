@@ -14,7 +14,6 @@ namespace UITests.Tests
     [AllureNUnit]
     class SaveSeachingTest
     {
-
         private Settings _settings;
 
         [SetUp]
@@ -27,10 +26,9 @@ namespace UITests.Tests
         public void EndTest()
         {
             // Delete saved searches.
-            var deleteSearches = new CommonPageObject(_settings);
+            var deleteSearches = new Actions(_settings);
             deleteSearches.DeleteSavedSerches();
-            Thread.Sleep(2000);
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -44,7 +42,7 @@ namespace UITests.Tests
             var wait = WebDriverWaitUtils.GetWaiter(20);
 
             // GIVEN: User Login to website.
-            var common = new CommonPageObject(_settings);
+            var common = new Actions(_settings);
             common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.                        
@@ -65,8 +63,7 @@ namespace UITests.Tests
             openSearchList._saveSearchList.Click();
 
             // AND: Check if saved searche is saved.
-            var actualResult = common.isSearchIsSaved();
-
+            var actualResult = common.IsSearchIsSaved();
             Assert.IsTrue(actualResult, "!searching is not saved!");
         }
     }

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using UITests.TestData;
 
@@ -8,12 +7,6 @@ namespace UITests.Utils
     public class WebDriverSingleton
     {
         private static IWebDriver _webDriver;
-
-      //  private Settings _settings;
-
-        
-         
-        
 
         public static IWebDriver GetInstance()
         {
@@ -27,9 +20,8 @@ namespace UITests.Utils
             }
             return _webDriver;
         }
-        public static void SetNull()
+        public static void DriverQuit()
         {
-            _webDriver.Close();
             _webDriver.Quit();
             _webDriver = null;
         }

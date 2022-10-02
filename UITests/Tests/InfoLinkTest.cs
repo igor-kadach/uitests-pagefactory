@@ -24,7 +24,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -43,9 +43,8 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(goToQuestions._mostPopularQuestions)).Click();
 
             // WHEN: Check if link to support is enable.
-            var getQuestions = new CommonPageObject(_settings);
+            var getQuestions = new Actions(_settings);
             var actualResult = getQuestions.IsLinkEnable();
-
             Assert.IsTrue(actualResult, "!can't redirect to support!");
         }
     }

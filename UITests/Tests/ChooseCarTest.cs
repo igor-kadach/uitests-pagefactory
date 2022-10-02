@@ -24,7 +24,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.SetNull();
+            WebDriverSingleton.DriverQuit();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -42,13 +42,13 @@ namespace UITests.Tests
             wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
 
             // WHEN: Enter necessary parametrs for looking.     
-            var common = new CommonPageObject(_settings);
+            var common = new Actions(_settings);
             common.EnterParametrsForSearching();
+            wait.Until(ExpectedConditions.TextToBePresentInElement(openCatalogForSearching._nameOfCar, "Audi"));
 
             // THEN: Check if necessary car was found.
             var actualResult = common.GetNameOfCar();
             var expectedResult = "Audi";
-
             Assert.That(actualResult, Does.Contain(expectedResult), "!wrong results of searching!");
         }
     }
