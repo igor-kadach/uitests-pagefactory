@@ -27,7 +27,7 @@ namespace UITests.Tests
             WebDriverSingleton.DriverQuit();
         }
 
-        //       [Test(Author = "Igor_Kadach")]
+        [Test(Author = "Igor_Kadach")]
         [Category("CarExchange")]
         [Description("Test1")]
         [AllureTag("NUnit", "Debug")]
