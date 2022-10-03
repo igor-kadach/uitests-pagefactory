@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -39,12 +38,12 @@ namespace UITests.Tests
 
             // GIVEN: Open catalog to entry parametrs for looking.
             var openCatalogForSearching = new MainMenuPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
+            openCatalogForSearching.ClickOnShowCalatogButton();
 
             // WHEN: Enter necessary parametrs for looking.     
             var common = new Actions(_settings);
             common.EnterParametrsForSearching();
-            wait.Until(ExpectedConditions.TextToBePresentInElement(openCatalogForSearching._nameOfCar, "Audi"));
+            openCatalogForSearching.WaitCarNameAppeared();
 
             // THEN: Check if necessary car was found.
             var actualResult = common.GetNameOfCar();

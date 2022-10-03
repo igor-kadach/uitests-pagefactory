@@ -21,10 +21,10 @@ namespace UITests.Utils
             wait.Until(ExpectedConditions.ElementToBeClickable(signInButtonClick._sighInButton)).Click();
 
             var login = new AuthorizationPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(login._byEmail)).Click();
-            login._loginInputField.SendKeys(_settings.EmailAdress);
-            login._passwordInputField.SendKeys(_settings.Password);
-            login._logInButton.Click();
+            login.ChooseMethodByEmail();
+            login.EnterEmailInLoginField();
+            login.EnterPassInPasswordField();
+            login.ClickOnLogInButton();
         }
 
         public bool IsMyOfferDisplayed()
@@ -58,7 +58,7 @@ namespace UITests.Utils
             parametrs._chooseFuel.Click();
             parametrs._benzinFuel.Click();
             parametrs._chooseFuel.Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShow)).Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShowForBookmark)).Click();
         }
 
         public bool IsAudiDispayed()

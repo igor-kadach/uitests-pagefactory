@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -28,7 +27,7 @@ namespace UITests.Tests
             WebDriverSingleton.DriverQuit();
         }
 
-        [Test(Author = "Igor_Kadach")]
+        //       [Test(Author = "Igor_Kadach")]
         [Category("CarExchange")]
         [Description("Test1")]
         [AllureTag("NUnit", "Debug")]
@@ -45,18 +44,18 @@ namespace UITests.Tests
 
             // WHEN: Open catalog for enter necessary values.
             var parametrs = new ParametrsForSearchingPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._allParametrs)).Click();
+            parametrs.ClickOnAllParametrsButton();
 
             // THEN: Enter necessary values and find a car for exchange.
-            parametrs._searchByWords.SendKeys(_settings.Exchange);
-            wait.Until(ExpectedConditions.ElementToBeClickable(parametrs._buttonShow)).Click();
+            parametrs.EnterExchangeWord();
+            parametrs.ClickOnShowButton();
 
             // THEN: Open the found offer. 
             var myOfferToExchange = new CatalogPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(myOfferToExchange._openForExchange)).Click();
+            myOfferToExchange.ClickOnOfferExchange();
 
             // AND: Suggest my car for exchange.
-            wait.Until(ExpectedConditions.ElementToBeClickable(myOfferToExchange._openOffer)).Click();
+            myOfferToExchange.OpenOfferForExchange();
 
             // AND: Сheck if my offer for an exchange has appeared.
             var actualResult = common.IsMyOfferDisplayed();

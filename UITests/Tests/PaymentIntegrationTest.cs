@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -43,16 +42,16 @@ namespace UITests.Tests
 
             // WHEN: Open my profile to open adding points menu.
             var goToMyProfile = new MainMenuPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
+            goToMyProfile.ClickOnProfileIcon();
 
             // THEN: Open adding points menu to choose payment method and buy points.
             var buyPoints = new PersonalAreaPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._points)).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._pointsFor10Rubles)).Click();
+            buyPoints.BuyPoints();
+            buyPoints.BuyPointsFor10Rubles();
 
             // AND: Choose payment method.
-            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._payByCard)).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(buyPoints._goToPayService)).Click();
+            buyPoints.BuyByCard();
+            buyPoints.GoToPayService();
 
             // THEN: Check redirect to the payment page.
             var actualResult = common.IsLogoDisplayed();

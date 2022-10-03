@@ -37,7 +37,7 @@ namespace UITests.Tests
         {
             // GIVEN: Click to instagram link.
             var linkIsAvailable = new MainMenuPageObject();
-            linkIsAvailable._goToInstagram.Click();
+            linkIsAvailable.ClickOnInstagramm();
 
             // WHEN: Check redirect to instagram.
             var getInstagramLink = new Actions(_settings);

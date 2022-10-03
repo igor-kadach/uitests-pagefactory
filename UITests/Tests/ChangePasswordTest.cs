@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -47,22 +46,23 @@ namespace UITests.Tests
 
             // WHEN: User open my profile to open settings.
             var goToMyProfile = new MainMenuPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(goToMyProfile._profile)).Click();
+            goToMyProfile.ClickOnProfileIcon();
 
             // THEN: User open settings to change password.
             var openSetting = new PersonalAreaPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(openSetting._settingsButton)).Click();
+            openSetting.ClickOnSettings();
 
             // THEN: User change old password to new.
             var changePass = new SettingsPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(changePass._changePassword)).Click();
-            changePass._oldPassworField.SendKeys(_settings.Password);
-            changePass._newPasswordField.SendKeys(_settings.NewPasswordForTest);
+            changePass.ClickOnChangePasswordButton();
+            changePass.WaitTitleOfNewPasswordPage();
+            changePass.EnterOldPassword();
+            changePass.EnterNewPassword();
 
             // AND: Save changes.
-            changePass._applyButton.Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(changePass._exitButton)).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(changePass._logoAVButton)).Click();
+            changePass.ApplyChanges();
+            changePass.ClickOnExitButton();
+            changePass.ClickOnAVLogo();
 
             // THEN: Try to login with old password.
             common.LoginToSite();

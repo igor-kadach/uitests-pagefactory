@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using UITests.PageObjects;
 using UITests.TestData;
@@ -48,19 +47,19 @@ namespace UITests.Tests
             // WHEN: Open catalog to entry parametrs for looking.                        
             var openCatalogForSearching = new MainMenuPageObject();
             Thread.Sleep(2000);
-            wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
+            openCatalogForSearching.ClickOnShowCalatogButton();
 
             // Then: Enter necessary parametrs for looking.            
             common.EnterParametrsForSearching();
 
             // AND: Save choosen parametrs to favorite searching.
             var saveSearch = new CatalogPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._saveSearchButton)).Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(saveSearch._closeSubscribing)).Click();
+            saveSearch.ClickOnSaveSearchButton();
+            saveSearch.CloseSubscribingWindow();
 
             // THEN: Open saved searches.
             var openSearchList = new MainMenuPageObject();
-            openSearchList._saveSearchList.Click();
+            openSearchList.SaveSearchList();
 
             // AND: Check if saved searche is saved.
             var actualResult = common.IsSearchIsSaved();

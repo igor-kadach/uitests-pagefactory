@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using SeleniumExtras.WaitHelpers;
 using System.Threading;
 using UITests.PageObjects;
 using UITests.TestData;
@@ -48,22 +47,23 @@ namespace UITests.Tests
 
             // WHEN: Open catalog to entry parametrs for looking.
             var openCatalogForSearching = new MainMenuPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(openCatalogForSearching._showCatalogButton)).Click();
+            openCatalogForSearching.ClickOnShowCalatogButton();
 
             // THEN: Enter necessary parametrs for looking.         
             common.EnterParametrsForSearching();
-            wait.Until(ExpectedConditions.TextToBePresentInElement(openCatalogForSearching._nameOfCar, "Audi"));
+            openCatalogForSearching.WaitCarNameAppeared();
+
             // THEN: Add founded car to favorite bookmarks.
             var addToBookmarks = new CatalogPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(addToBookmarks._bookmark)).Click();
+            addToBookmarks.AddCarToBookmark();
 
             // AND: Open my profile to open favorite bookmarks.
             var profile = new MainMenuPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(profile._profile)).Click();
+            profile.ClickOnProfileIcon();
 
             // THEN: Open bookmarks.
             var openBookmarks = new PersonalAreaPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(openBookmarks._bookmarks)).Click();
+            openBookmarks.OpenBookmarks();
 
             // AND: Check if car was added to bookmarks.
             var actualResult = common.IsAudiDispayed();

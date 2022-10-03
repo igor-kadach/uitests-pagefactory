@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -39,8 +38,8 @@ namespace UITests.Tests
 
             // GIVEN: Go to bottom of site to infolinks and choose support.
             var goToQuestions = new MainMenuPageObject();
-            goToQuestions._askQuestion.Click();
-            wait.Until(ExpectedConditions.ElementToBeClickable(goToQuestions._mostPopularQuestions)).Click();
+            goToQuestions.ClickOnAskQuestionsButton();
+            goToQuestions.ChooseMostPopularQuestions();
 
             // WHEN: Check if link to support is enable.
             var getQuestions = new Actions(_settings);
