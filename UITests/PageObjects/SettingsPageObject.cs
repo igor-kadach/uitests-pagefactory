@@ -37,9 +37,14 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//input[@id='old-password']")]
         public IWebElement _oldPassworField { get; set; }
 
-        public void EnterOldPassword()
+        public void EnterActualPassword()
         {
             _oldPassworField.SendKeys(_settings.Password);
+        }
+
+        public void EnterNewlPasswordForChange()
+        {
+            _oldPassworField.SendKeys(_settings.NewPasswordForTest);
         }
 
         [FindsBy(How = How.XPath, Using = "//input[@id='new-password']")]
@@ -48,6 +53,16 @@ namespace UITests.PageObjects
         public void EnterNewPassword()
         {
             _newPasswordField.SendKeys(_settings.NewPasswordForTest);
+        }
+
+        public void EnterNewPasswordForChange()
+        {
+            _newPasswordField.SendKeys(_settings.NewPasswordForTest);
+        }
+
+        public void EnterOldPasswordForChange()
+        {
+            _newPasswordField.SendKeys(_settings.Password);
         }
 
         [FindsBy(How = How.CssSelector, Using = "button[type='submit'] span[class='button__text']")]

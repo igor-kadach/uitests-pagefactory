@@ -28,6 +28,12 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//span[@class='link-text']")]
         public IWebElement _nameAudi { get; set; }
 
+        public void WaitNameOfCarAudi()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.TextToBePresentInElement(_nameAudi, "Audi"));
+        }
+
         [FindsBy(How = How.CssSelector, Using = "a[class='mycard__action-control'] span")]
         public IWebElement _buttonChange { get; set; }
 
@@ -111,11 +117,29 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//button[@aria-busy='false']")]
         public IWebElement _deleteBookmark { get; set; }
 
+        public void DeleteBookmark()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.ElementToBeClickable(_deleteBookmark)).Click();
+        }
+
         [FindsBy(How = How.XPath, Using = "//button[@class='button button--xlink']")]
         public IWebElement _deleteSavedSearching { get; set; }
 
+        public void DeleteSavedSearching()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.ElementToBeClickable(_deleteSavedSearching)).Click();
+        }
+
         [FindsBy(How = How.CssSelector, Using = "button[class='button button--action button--large'] span[class='button__text']")]
         public IWebElement _acceptDeleting { get; set; }
+
+        public void AcceptDeleting()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.ElementToBeClickable(_acceptDeleting)).Click();
+        }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='uploader__title']")]
         public IWebElement _titlePhoto { get; set; }

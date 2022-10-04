@@ -41,6 +41,11 @@ namespace UITests.PageObjects
             _passwordInputField.SendKeys(_settings.Password);
         }
 
+        public void EnterNewPassInPasswordField()
+        {
+            _passwordInputField.SendKeys(_settings.NewPasswordForTest);
+        }
+
         [FindsBy(How = How.CssSelector, Using = "button[class='button button--action'] span[class='button__text']")]
         public IWebElement _logInButton { get; set; }
 
@@ -52,7 +57,19 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//div[@class='error-message']")]
         public IWebElement _errorMessage { get; set; }
 
+        public void WaitErrorMessage()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.TextToBePresentInElement(_errorMessage, "Неверный логин"));
+        }
+
         [FindsBy(How = How.XPath, Using = "//button[@class='drawer__close']")]
         public IWebElement _closeAuthWondow { get; set; }
+
+        public void CloseAuthWondow()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.ElementToBeClickable(_closeAuthWondow)).Click();
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace UITests.Tests
             var changePass = new SettingsPageObject();
             changePass.ClickOnChangePasswordButton();
             changePass.WaitTitleOfNewPasswordPage();
-            changePass.EnterOldPassword();
+            changePass.EnterActualPassword();
             changePass.EnterNewPassword();
 
             // AND: Save changes.

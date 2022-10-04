@@ -14,6 +14,12 @@ namespace UITests.PageObjects
         [FindsBy(How = How.CssSelector, Using = "a[rel='nofollow'] span[class='nav__link-text']")]
         public IWebElement _sighInButton { get; set; }
 
+        public void ClickOnSignInButton()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.ElementToBeClickable(_sighInButton)).Click();
+        }
+
         [FindsBy(How = How.XPath, Using = "//*[contains(@d,'M12 18a6 6')]")]
         public IWebElement _profile { get; set; }
 

@@ -42,6 +42,12 @@ namespace UITests.PageObjects
             wait.Until(ExpectedConditions.ElementToBeClickable(_openOffer)).Click();
         }
 
+        public void WaitOfferForExchange()
+        {
+            var wait = WebDriverWaitUtils.GetWaiter(20);
+            wait.Until(ExpectedConditions.TextToBePresentInElement(_openOffer, "Предложить"));
+        }
+
         [FindsBy(How = How.CssSelector, Using = "div[class='chats-subject__info'] div:nth-child(2)")]
         public IWebElement _myOffer { get; set; }
 
