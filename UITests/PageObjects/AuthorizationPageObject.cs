@@ -4,7 +4,6 @@ using SeleniumExtras.WaitHelpers;
 using UITests.TestData;
 using UITests.Utils;
 
-
 namespace UITests.PageObjects
 {
     public class AuthorizationPageObject : BasePageObject

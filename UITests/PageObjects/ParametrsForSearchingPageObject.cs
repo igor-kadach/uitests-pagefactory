@@ -53,6 +53,7 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//div[@id='p-15-engine_type']//li[1]")]
         public IWebElement _benzinFuel { get; set; }
+
         public void BenzinFuel()
         {
             var wait = WebDriverWaitUtils.GetWaiter(20);
@@ -70,6 +71,7 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//button[@class='button button--secondary button--block']//span[@class='button__text']")]
         public IWebElement _buttonShowForBookmark { get; set; }
+
         public void ClickOnButtonShowForBookmark()
         {
             var wait = WebDriverWaitUtils.GetWaiter(20);
