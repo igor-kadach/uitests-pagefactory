@@ -14,6 +14,19 @@ namespace UITests.Tests
     {
         private Settings _settings;
 
+        private Actions _common;
+
+        private MainMenuPageObject _goToPerosonalArea;
+
+        private PersonalAreaPageObject _addPhoto;
+
+        public UploadPhotoTest()
+        {
+            _common = new Actions(_settings);
+            _goToPerosonalArea = new MainMenuPageObject();
+            _addPhoto = new PersonalAreaPageObject();
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -23,7 +36,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -34,32 +47,29 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void CheckUploadPhotoTest()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             //GIVEN: Login to website.
-            var common = new Actions(_settings);
-            common.LoginToSite();
+            _common.LoginToSite();
 
             // WHEN: Open my profile to open my sale ads.
-            var goToPerosonalArea = new MainMenuPageObject();
-            goToPerosonalArea.ClickOnProfileIcon();
+            _goToPerosonalArea.ClickOnProfileIcon();
 
             // THEN: Open my ad.
-            var addPhoto = new PersonalAreaPageObject();
-            addPhoto.ClickOnChangeButton();
+            _addPhoto.ClickOnChangeButton();
+            _addPhoto.WaitTiitlePhoto();
 
             // THEN: Add new photo.
-            addPhoto.WaitTitlePhoto();
-            addPhoto.ChoosePhoto();
-            addPhoto.TurnPhotoOfCar();
+            _addPhoto.ChoosePhoto();
+            _addPhoto.WaitChoosePhotoButton();
+            _addPhoto.TurnPhotoOfCar();
 
             // THEN: Save adding photo.
-            addPhoto.SavePhoto();
-            addPhoto.ClickOnChangeButton();
-            addPhoto.WaitTitlePhoto();
+            _addPhoto.SavePhoto();
+            _addPhoto.ClickOnChangeButton();
+            _addPhoto.WaitChoosePhotoButton();
+
 
             // THEN: Check if photo was added.
-            var actualResult = common.IsAddedPhotoDisplayed();
+            var actualResult = _addPhoto.IsAddedPhotoDisplayed();
             var expectedResult = true;
             Assert.AreEqual(expectedResult, actualResult, "!image not found!");
         }

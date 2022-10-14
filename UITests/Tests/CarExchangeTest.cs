@@ -15,6 +15,19 @@ namespace UITests.Tests
     {
         private Settings _settings;
 
+        private ParametrsForSearchingPageObject _parametrs;
+
+        private CatalogPageObject _myOfferToExchange;
+
+        private Actions _common;
+
+        public CarExchangeTest()
+        {
+            _parametrs = new ParametrsForSearchingPageObject();
+            _myOfferToExchange = new CatalogPageObject();
+            _common = new Actions(_settings);
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -24,7 +37,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -36,30 +49,29 @@ namespace UITests.Tests
 
         public void CarExchange()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             // GIVEN: User login to website.
-            var common = new Actions(_settings);
-            common.LoginToSite();
+            _common.LoginToSite();
 
             // WHEN: Open catalog for enter necessary values.
-            var parametrs = new ParametrsForSearchingPageObject();
-            parametrs.ClickOnAllParametrsButton();
+            _parametrs.WaitAllParametrsButton();
+            _parametrs.ClickOnAllParametrsButton();
 
             // THEN: Enter necessary values and find a car for exchange.
-            parametrs.EnterExchangeWord();
-            parametrs.ClickOnShowButton();
+            _parametrs.EnterExchangeWord();
+            _parametrs.ClickOnPopularParametrsButton();
+            _parametrs.SearchingField();
+            _parametrs.ClickOnShowButton();
 
             // THEN: Open the found offer. 
-            var myOfferToExchange = new CatalogPageObject();
-            myOfferToExchange.ClickOnOfferExchange();
+            _myOfferToExchange.ClickOnOfferExchange();
 
             // AND: Suggest my car for exchange.
-            myOfferToExchange.OpenOfferForExchange();
+            _myOfferToExchange.OpenOfferForExchange();
 
             // AND: Сheck if my offer for an exchange has appeared.
-            var actualResult = common.IsMyOfferDisplayed();
-            Assert.IsTrue(actualResult, "!offer to exchange is not found!");
+            var expectedResult = true;
+            var actualResult = _myOfferToExchange.IsMyOfferDisplayed();
+            Assert.AreEqual(actualResult, expectedResult, "!offer to exchange is not found!");
         }
     }
 }

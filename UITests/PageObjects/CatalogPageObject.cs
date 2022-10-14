@@ -1,72 +1,66 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.PageObjects
 {
-    class CatalogPageObject : BasePageObject
+    class CatalogPageObject : BaseTest
     {
-        private Settings _settings;
-
         public CatalogPageObject() : base()
         {
-            _settings = SettingsHelper.GetSettings();
         }
 
         [FindsBy(How = How.XPath, Using = "//div[@class='listing__items']//*[name()='svg']")]
-        public IWebElement _bookmark { get; set; }
+        private IWebElement _bookmark { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='modal modal--active']//*[name()='path']")]
+        private IWebElement _closeSubscribing { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "div[class='listing__items'] div:nth-child(1) div:nth-child(1) a:nth-child(1) span:nth-child(1)")]
+        private IWebElement _openForExchange { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "button[class='button button--default'] span[class='button__text']")]
+        private IWebElement _openOffer { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "div[class='chats-subject__info'] div:nth-child(2)")]
+        private IWebElement _myOffer { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "button:nth-child(3) > span:nth-child(2)")]
+        private IWebElement _saveSearchButton { get; set; }
 
         public void AddCarToBookmark()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_bookmark)).Click();
+            _bookmark.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.XPath, Using = "//div[@class='listing__items']//div[1]//div[1]//h3[1]")]
-        public IWebElement _openForExchange { get; set; }
 
         public void ClickOnOfferExchange()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_openForExchange)).Click();
+            _openForExchange.WaitElementToBeClickable(_webDriver, 10);
+            _openForExchange.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.CssSelector, Using = "button[class='button button--default'] span[class='button__text']")]
-        public IWebElement _openOffer { get; set; }
 
         public void OpenOfferForExchange()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_openOffer)).Click();
+            _openOffer.WaitElementToBeClickable(_webDriver, 10);
+            _openOffer.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        public void WaitOfferForExchange()
-        {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.TextToBePresentInElement(_openOffer, "Предложить"));
-        }
-
-        [FindsBy(How = How.CssSelector, Using = "div[class='chats-subject__info'] div:nth-child(2)")]
-        public IWebElement _myOffer { get; set; }
-
-        [FindsBy(How = How.CssSelector, Using = "button:nth-child(3) > span:nth-child(2)")]
-        public IWebElement _saveSearchButton { get; set; }
 
         public void ClickOnSaveSearchButton()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_saveSearchButton)).Click();
+            _saveSearchButton.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.XPath, Using = "//div[@class='modal modal--active']//*[name()='path']")]
-        public IWebElement _closeSubscribing { get; set; }
 
         public void CloseSubscribingWindow()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_closeSubscribing)).Click();
+            _closeSubscribing.WaitElementToBeClickable(_webDriver, 10).Click();
+        }
+
+        public bool IsMyOfferDisplayed()
+        {
+            _myOffer.WaitElementToBeClickable(_webDriver, 10);
+            var isMyOfferDisplayed = _myOffer.Displayed;
+            return isMyOfferDisplayed;
         }
     }
 }

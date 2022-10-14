@@ -1,155 +1,98 @@
-﻿using SeleniumExtras.WaitHelpers;
-using UITests.TestData;
+﻿using UITests.TestData;
 using UITests.PageObjects;
 
 namespace UITests.Utils
 {
-    public class Actions : BasePageObject
+    public class Actions : BaseTest
     {
         private readonly Settings _settings;
+
+        private readonly MainMenuPageObject _menuActions;
+
+        private readonly AuthorizationPageObject _authorizationActions;
+
+        private readonly ParametrsForSearchingPageObject _parametrsActions;
+
+        private readonly PersonalAreaPageObject _personalActions;
+
+        private readonly SettingsPageObject _settingsActions;
+
 
         public Actions(Settings settings) : base()
         {
             _settings = settings;
+            _menuActions = new MainMenuPageObject();
+            _authorizationActions = new AuthorizationPageObject();
+            _parametrsActions = new ParametrsForSearchingPageObject();
+            _personalActions = new PersonalAreaPageObject();
+            _settingsActions = new SettingsPageObject();
         }
 
         public void LoginToSite()
         {
-            var signInButtonClick = new MainMenuPageObject();
-            signInButtonClick.ClickOnSignInButton();
-
-            var login = new AuthorizationPageObject();
-            login.ChooseMethodByEmail();
-            login.EnterEmailInLoginField();
-            login.EnterPassInPasswordField();
-            login.ClickOnLogInButton();
-        }
-
-        public bool IsMyOfferDisplayed()
-        {
-            var offerDisplayed = new CatalogPageObject();
-            offerDisplayed.WaitOfferForExchange();
-            var isMyOfferDisplayed = offerDisplayed._myOffer.Displayed;
-            return isMyOfferDisplayed;
-        }
-
-        public bool IsErrorMessageDisplayed()
-        {
-            var errorMessage = new AuthorizationPageObject();
-            errorMessage.WaitErrorMessage();
-            var isErrorMessageDisplayed = errorMessage._errorMessage.Displayed;
-            return isErrorMessageDisplayed;
+            _menuActions.ClickOnSignInButton();
+            _authorizationActions.ChooseMethodByEmail();
+            _authorizationActions.EnterEmailInLoginField();
+            _authorizationActions.EnterPassInPasswordField();
+            _authorizationActions.ClickOnLogInButton();
         }
 
         public void EnterParametrsForSearching()
         {
-            var parametrs = new ParametrsForSearchingPageObject();
-            parametrs.ChooseCarName();
-            parametrs.CarName();
-            parametrs.ChooseTramsmission();
-            parametrs.ChooseFuel();
-            parametrs.BenzinFuel();
-            parametrs.ChooseFuel();
-            parametrs.ClickOnButtonShowForBookmark();
-        }
-
-        public bool IsAudiDispayed()
-        {
-            var getBookmarks = new PersonalAreaPageObject();
-            getBookmarks.WaitNameOfCarAudi();
-            var IsBookmarkDisplayed = getBookmarks._nameAudi.Displayed;
-            return IsBookmarkDisplayed;
-        }
-
-        public bool IsAddedPhotoDisplayed()
-        {
-            var getAddedPhoto = new PersonalAreaPageObject();
-            var isAddedPhotoDisplayed = getAddedPhoto._findAddedPhoto.Displayed;
-            return isAddedPhotoDisplayed;
-        }
-
-        public bool IsSearchIsSaved()
-        {
-            var getSavedSearching = new PersonalAreaPageObject();
-            var isSearchIsSaved = getSavedSearching._nameOfSearching.Displayed;
-            return isSearchIsSaved;
-        }
-
-        public bool IsLogoDisplayed()
-        {
-            var getLogo = new PersonalAreaPageObject();
-            var isLogoDisplayed = getLogo._logoOfPayment.Displayed;
-            return isLogoDisplayed;
+            _parametrsActions.ChooseCarName();
+            _parametrsActions.CarName();
+            _parametrsActions.ChooseTramsmission();
+            _parametrsActions.ChooseFuel();
+            _parametrsActions.BenzinFuel();
+            _parametrsActions.ChooseFuel();
+            _parametrsActions.ClickOnButtonShowForBookmark();
         }
 
         public void DeleteSavedSerches()
         {
-            var deleteSearching = new PersonalAreaPageObject();
-            deleteSearching.DeleteSavedSearching();
-            deleteSearching.AcceptDeleting();
+            _personalActions.DeleteSavedSearching();
+            _personalActions.AcceptDeleting();
         }
 
         public void DeleteSavedBoormarks()
         {
-            var deleteBookmark = new PersonalAreaPageObject();
-            deleteBookmark.DeleteBookmark();
+            _personalActions.DeleteBookmark();
         }
 
-        public bool GetProfileMenu()
+        public void TitleNoBookmarks()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            var getProfile = new MainMenuPageObject();
-            wait.Until(ExpectedConditions.ElementToBeClickable(getProfile._profile));
-            var userName = getProfile._profile.Displayed;
-            return userName;
+            _personalActions.WaitTitleOfBookmark();
         }
-        public string GetNameOfCar()
-        {
-            var getNameOfCar = new MainMenuPageObject();
-            var nameOfCar = getNameOfCar._nameOfCar.Text;
-            return nameOfCar;
-        }
+
         public string GetInstagramUrl()
         {
             _webDriver.SwitchTo().Window(_webDriver.WindowHandles[1]);
             var url = _webDriver.Url;
             return url;
         }
-        public bool IsLinkEnable()
-        {
-            var getLink = new MainMenuPageObject();
-            var isLinkEnable = getLink._infoEmail.Enabled;
-            return isLinkEnable;
-        }
 
         public void ChangePasswordBack()
         {
             // Close authWindow to sighIn again.
-            var closeAuthWindow = new AuthorizationPageObject();
-            closeAuthWindow.CloseAuthWondow();
+            _authorizationActions.CloseAuthWondow();
             // Press button SighIn.
-            var signInButtonClick = new MainMenuPageObject();
-            signInButtonClick.ClickOnSignInButton();
+            _menuActions.ClickOnSignInButton();
             // Choose method by email and enter new credentials.
-            var login = new AuthorizationPageObject();
-            login.ChooseMethodByEmail();
-            login.EnterEmailInLoginField();
-            login.EnterNewPassInPasswordField();
-            login.ClickOnLogInButton();
+            _authorizationActions.ChooseMethodByEmail();
+            _authorizationActions.EnterEmailInLoginField();
+            _authorizationActions.EnterNewPassInPasswordField();
+            _authorizationActions.ClickOnLogInButton();
             // Go to my profile to open settings.
-            var goToMyProfile = new MainMenuPageObject();
-            goToMyProfile.ClickOnProfileIcon();
+            _menuActions.ClickOnProfileIcon();
             // Open settings to change password.
-            var openSetting = new PersonalAreaPageObject();
-            openSetting.ClickOnSettings();
+            _personalActions.ClickOnSettings();
             // Change password fron new to old password back.
-            var changePass = new SettingsPageObject();
-            changePass.ClickOnChangePasswordButton();
-            changePass.EnterNewlPasswordForChange();
-            changePass.EnterOldPasswordForChange();
+            _settingsActions.ClickOnChangePasswordButton();
+            _settingsActions.EnterNewlPasswordForChange();
+            _settingsActions.EnterOldPasswordForChange();
             // Save changes.
-            changePass.ApplyChanges();
-            changePass.ClickOnExitButton();
+            _settingsActions.ApplyChanges();
+            _settingsActions.ClickOnExitButton();
         }
     }
 }

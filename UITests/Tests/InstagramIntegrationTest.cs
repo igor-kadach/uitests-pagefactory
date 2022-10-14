@@ -12,8 +12,17 @@ namespace UITests.Tests
     [AllureNUnit]
     class InstagramIntegrationTest
     {
-
         private Settings _settings;
+
+        private MainMenuPageObject _linkIsAvailable;
+
+        private Actions _getInstagramLink;
+
+        public InstagramIntegrationTest()
+        {
+            _linkIsAvailable = new MainMenuPageObject();
+            _getInstagramLink = new Actions(_settings);
+        }
 
         [SetUp]
         public void Setup()
@@ -24,7 +33,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -36,12 +45,10 @@ namespace UITests.Tests
         public void InstagramIntegration()
         {
             // GIVEN: Click to instagram link.
-            var linkIsAvailable = new MainMenuPageObject();
-            linkIsAvailable.ClickOnInstagramm();
+            _linkIsAvailable.ClickOnInstagramm();
 
             // WHEN: Check redirect to instagram.
-            var getInstagramLink = new Actions(_settings);
-            var actualResult = getInstagramLink.GetInstagramUrl();
+            var actualResult = _getInstagramLink.GetInstagramUrl();
             var expectedResult = "https://www.instagram.com/insta_avby/";
             Assert.AreEqual(expectedResult, actualResult, "!can't redirect to instagram!");
         }

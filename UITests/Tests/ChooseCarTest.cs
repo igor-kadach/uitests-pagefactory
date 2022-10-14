@@ -14,6 +14,16 @@ namespace UITests.Tests
     {
         private Settings _settings;
 
+        private MainMenuPageObject _openCatalogForSearching;
+
+        private Actions _common;
+
+        public ChooseCarTest()
+        {
+            _openCatalogForSearching = new MainMenuPageObject();
+            _common = new Actions(_settings);
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -23,7 +33,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -34,19 +44,15 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void ChooseCar()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             // GIVEN: Open catalog to entry parametrs for looking.
-            var openCatalogForSearching = new MainMenuPageObject();
-            openCatalogForSearching.ClickOnShowCalatogButton();
+            _openCatalogForSearching.ClickOnShowCalatogButton();
 
             // WHEN: Enter necessary parametrs for looking.     
-            var common = new Actions(_settings);
-            common.EnterParametrsForSearching();
-            openCatalogForSearching.WaitCarNameAppeared();
+            _common.EnterParametrsForSearching();
+            _openCatalogForSearching.WaitCarNameAppeared();
 
             // THEN: Check if necessary car was found.
-            var actualResult = common.GetNameOfCar();
+            var actualResult = _openCatalogForSearching.GetNameOfCar();
             var expectedResult = "Audi";
             Assert.That(actualResult, Does.Contain(expectedResult), "!wrong results of searching!");
         }

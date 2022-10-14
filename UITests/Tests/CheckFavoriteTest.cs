@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using System.Threading;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -15,6 +14,25 @@ namespace UITests.Tests
     {
         private Settings _settings;
 
+        private MainMenuPageObject _openCatalogForSearching;
+
+        private MainMenuPageObject _profile;
+
+        private CatalogPageObject _addToBookmarks;
+
+        private PersonalAreaPageObject _openBookmarks;
+
+        private Actions _common;
+
+        public CheckFavoriteTest()
+        {
+            _openCatalogForSearching = new MainMenuPageObject();
+            _profile = new MainMenuPageObject();
+            _addToBookmarks = new CatalogPageObject();
+            _openBookmarks = new PersonalAreaPageObject();
+            _common = new Actions(_settings);
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -25,10 +43,9 @@ namespace UITests.Tests
         public void EndTest()
         {
             // Delete saved bookmarks.   
-            var deleteBookmarks = new Actions(_settings);
-            deleteBookmarks.DeleteSavedBoormarks();
-            Thread.Sleep(2000);
-            WebDriverSingleton.DriverQuit();
+            _common.DeleteSavedBoormarks();
+            _common.TitleNoBookmarks();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -39,35 +56,29 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void CheckFavorite()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             // GIVEN: User login to website.
             var common = new Actions(_settings);
             common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.
-            var openCatalogForSearching = new MainMenuPageObject();
-            openCatalogForSearching.ClickOnShowCalatogButton();
+            _openCatalogForSearching.ClickOnShowCalatogButton();
 
             // THEN: Enter necessary parametrs for looking.         
             common.EnterParametrsForSearching();
-            openCatalogForSearching.WaitCarNameAppeared();
+            _openCatalogForSearching.WaitCarNameAppeared();
 
             // THEN: Add founded car to favorite bookmarks.
-            var addToBookmarks = new CatalogPageObject();
-            addToBookmarks.AddCarToBookmark();
+            _addToBookmarks.AddCarToBookmark();
 
             // AND: Open my profile to open favorite bookmarks.
-            var profile = new MainMenuPageObject();
-            profile.ClickOnProfileIcon();
+            _profile.ClickOnProfileIcon();
 
             // THEN: Open bookmarks.
-            var openBookmarks = new PersonalAreaPageObject();
-            openBookmarks.OpenBookmarks();
+            _openBookmarks.OpenBookmarks();
 
             // AND: Check if car was added to bookmarks.
-            var actualResult = common.IsAudiDispayed();
             var expectedResult = true;
+            var actualResult = _openBookmarks.IsAudiDispayed();
             Assert.AreEqual(expectedResult, actualResult, "!Audi not found!");
         }
     }

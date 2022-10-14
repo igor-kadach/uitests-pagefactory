@@ -14,6 +14,16 @@ namespace UITests.Tests
     {
         private Settings _settings;
 
+        private MainMenuPageObject _goToQuestions;
+
+        private Actions _getQuestions;
+
+        public InfoLinkTest()
+        {
+            _goToQuestions = new MainMenuPageObject();
+            _getQuestions = new Actions(_settings);
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -23,7 +33,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -34,17 +44,14 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void InfoLink()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             // GIVEN: Go to bottom of site to infolinks and choose support.
-            var goToQuestions = new MainMenuPageObject();
-            goToQuestions.ClickOnAskQuestionsButton();
-            goToQuestions.ChooseMostPopularQuestions();
+            _goToQuestions.ClickOnAskQuestionsButton();
+            _goToQuestions.ChooseMostPopularQuestions();
 
             // WHEN: Check if link to support is enable.
-            var getQuestions = new Actions(_settings);
-            var actualResult = getQuestions.IsLinkEnable();
-            Assert.IsTrue(actualResult, "!can't redirect to support!");
+            var expectedResult = true;
+            var actualResult = _goToQuestions.IsLinkEnable();
+            Assert.AreEqual(actualResult, expectedResult, "!can't redirect to support!");
         }
     }
 }

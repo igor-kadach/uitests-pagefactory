@@ -14,6 +14,19 @@ namespace UITests.Tests
     {
         private Settings _settings;
 
+        private Actions _common;
+
+        private MainMenuPageObject _goToMyProfile;
+
+        private PersonalAreaPageObject _buyPoints;
+
+        public PaymentIntegrationTest()
+        {
+            _common = new Actions(_settings);
+            _goToMyProfile = new MainMenuPageObject();
+            _buyPoints = new PersonalAreaPageObject();
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -23,7 +36,7 @@ namespace UITests.Tests
         [TearDown]
         public void EndTest()
         {
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -34,28 +47,24 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void PaymentIntegration()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             // GIVEN: User login to website.
-            var common = new Actions(_settings);
-            common.LoginToSite();
+            _common.LoginToSite();
 
             // WHEN: Open my profile to open adding points menu.
-            var goToMyProfile = new MainMenuPageObject();
-            goToMyProfile.ClickOnProfileIcon();
+            _goToMyProfile.ClickOnProfileIcon();
 
             // THEN: Open adding points menu to choose payment method and buy points.
-            var buyPoints = new PersonalAreaPageObject();
-            buyPoints.BuyPoints();
-            buyPoints.BuyPointsFor10Rubles();
+            _buyPoints.BuyPoints();
+            _buyPoints.BuyPointsFor10Rubles();
 
             // AND: Choose payment method.
-            buyPoints.BuyByCard();
-            buyPoints.GoToPayService();
+            _buyPoints.BuyByCard();
+            _buyPoints.GoToPayService();
 
             // THEN: Check redirect to the payment page.
-            var actualResult = common.IsLogoDisplayed();
-            Assert.IsTrue(actualResult, "!can't redirect to payment method!");
+            var expectedResult = true;
+            var actualResult = _buyPoints.IsLogoDisplayed();
+            Assert.AreEqual(actualResult, expectedResult, "!can't redirect to payment method!");
         }
     }
 }

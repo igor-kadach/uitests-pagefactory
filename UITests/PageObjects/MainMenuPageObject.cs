@@ -1,89 +1,113 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using UITests.Utils;
 
 namespace UITests.PageObjects
 {
-    class MainMenuPageObject : BasePageObject
+    class MainMenuPageObject : BaseTest
     {
         public MainMenuPageObject() : base()
         {
         }
 
-        [FindsBy(How = How.CssSelector, Using = "a[rel='nofollow'] span[class='nav__link-text']")]
-        public IWebElement _sighInButton { get; set; }
+        [FindsBy(How = How.CssSelector, Using = "button[class='button button--primary button--large button--block button button--primary'] span[class='button__text']")]
+        private IWebElement _acceptCookie { get; set; }
 
-        public void ClickOnSignInButton()
-        {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_sighInButton)).Click();
-        }
+        [FindsBy(How = How.CssSelector, Using = "a[rel='nofollow'] span[class='nav__link-text']")]
+        private IWebElement _sighInButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//*[contains(@d,'M12 18a6 6')]")]
-        public IWebElement _profile { get; set; }
+        private IWebElement _profile { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "a[class='button button--secondary button--block'] span[class='button__text']")]
+        private IWebElement _showCatalogButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//div[@class='listing__items']//h3[1]")]
+        private IWebElement _nameOfCar { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/support']")]
+        private IWebElement _askQuestion { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[@href='https://www.instagram.com/insta_avby/']")]
+        private IWebElement _goToInstagram { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/pages/faq']")]
+        private IWebElement _mostPopularQuestions { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//u[normalize-space()='info@av.by']")]
+        private IWebElement _infoEmail { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/profile/saved-filters']")]
+        private IWebElement _saveSearchList { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "   //div[@id='adfox_163240379968878578']//a//img")]
+        private IWebElement _banner { get; set; }
+
+        public void AcceptCookie()
+        {
+            _acceptCookie.WaitElementToBeClickable(_webDriver, 10).Click();
+        }
+
+        public void ClickOnSignInButton()
+        {            
+            _banner.WaitElementToBeClickable(_webDriver, 10);
+            _sighInButton.WaitElementToBeClickable(_webDriver, 10).Click();
+        }
 
         public void ClickOnProfileIcon()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_profile)).Click();
+            _profile.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.CssSelector, Using = "a[class='button button--secondary button--block'] span[class='button__text']")]
-        public IWebElement _showCatalogButton { get; set; }
 
         public void ClickOnShowCalatogButton()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_showCatalogButton)).Click();
+            _showCatalogButton.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.XPath, Using = "//div[@class='listing__items']//h3[1]")]
-        public IWebElement _nameOfCar { get; set; }
 
         public void WaitCarNameAppeared()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.TextToBePresentInElement(_nameOfCar, "Audi"));
+            _nameOfCar.WaitElementToBeClickable(_webDriver, 10);
         }
-
-        [FindsBy(How = How.XPath, Using = "//a[normalize-space()='Instagram']")]
-        public IWebElement _goToInstagram { get; set; }
 
         public void ClickOnInstagramm()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_goToInstagram)).Click();
+            _goToInstagram.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/support']")]
-        public IWebElement _askQuestion { get; set; }
 
         public void ClickOnAskQuestionsButton()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_askQuestion)).Click();
+            _askQuestion.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/pages/faq']")]
-        public IWebElement _mostPopularQuestions { get; set; }
 
         public void ChooseMostPopularQuestions()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_mostPopularQuestions)).Click();
+            _mostPopularQuestions.WaitElementToBeClickable(_webDriver, 10).Click();
         }
-
-        [FindsBy(How = How.XPath, Using = "//u[normalize-space()='info@av.by']")]
-        public IWebElement _infoEmail { get; set; }
-
-        [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/profile/saved-filters']")]
-        public IWebElement _saveSearchList { get; set; }
 
         public void SaveSearchList()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-            wait.Until(ExpectedConditions.ElementToBeClickable(_saveSearchList)).Click();
+            _saveSearchList.WaitElementToBeClickable(_webDriver, 10).Click();
+        }
+
+        public bool GetProfileMenu()
+        {
+            _profile.WaitElementToBeClickable(_webDriver, 10);
+            var userName = _profile.Displayed;
+            return userName;
+        }
+
+        public bool IsLinkEnable()
+        {
+            var isLinkEnable = _infoEmail.Enabled;
+            return isLinkEnable;
+        }
+
+        public string GetNameOfCar()
+        {
+            var showButtom = By.CssSelector("button[class='button button--secondary button--block'] span[class='button__text']");
+            showButtom.WaitElementIsVisible(_webDriver, 10);
+            var nameOfCar = _nameOfCar.Text;
+            return nameOfCar;
         }
     }
 }

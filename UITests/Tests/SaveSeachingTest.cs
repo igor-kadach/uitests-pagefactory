@@ -2,7 +2,6 @@
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
-using System.Threading;
 using UITests.PageObjects;
 using UITests.TestData;
 using UITests.Utils;
@@ -14,6 +13,22 @@ namespace UITests.Tests
     class SaveSeachingTest
     {
         private Settings _settings;
+
+        private Actions _common;
+
+        private MainMenuPageObject _openCatalogForSearching;
+
+        private CatalogPageObject _saveSearch;
+
+        private PersonalAreaPageObject _showSearching;
+
+        public SaveSeachingTest()
+        {
+            _common = new Actions(_settings);
+            _openCatalogForSearching = new MainMenuPageObject();
+            _saveSearch = new CatalogPageObject();
+            _showSearching = new PersonalAreaPageObject();
+        }
 
         [SetUp]
         public void Setup()
@@ -27,7 +42,7 @@ namespace UITests.Tests
             // Delete saved searches.
             var deleteSearches = new Actions(_settings);
             deleteSearches.DeleteSavedSerches();
-            WebDriverSingleton.DriverQuit();
+            BaseTest.DriverClose();
         }
 
         [Test(Author = "Igor_Kadach")]
@@ -38,32 +53,26 @@ namespace UITests.Tests
         [AllureFeature("Core")]
         public void SaveSearching()
         {
-            var wait = WebDriverWaitUtils.GetWaiter(20);
-
             // GIVEN: User Login to website.
-            var common = new Actions(_settings);
-            common.LoginToSite();
+            _common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.                        
-            var openCatalogForSearching = new MainMenuPageObject();
-            Thread.Sleep(2000);
-            openCatalogForSearching.ClickOnShowCalatogButton();
+            _openCatalogForSearching.ClickOnShowCalatogButton();
 
             // Then: Enter necessary parametrs for looking.            
-            common.EnterParametrsForSearching();
+            _common.EnterParametrsForSearching();
 
             // AND: Save choosen parametrs to favorite searching.
-            var saveSearch = new CatalogPageObject();
-            saveSearch.ClickOnSaveSearchButton();
-            saveSearch.CloseSubscribingWindow();
+            _saveSearch.ClickOnSaveSearchButton();
+            _saveSearch.CloseSubscribingWindow();
 
             // THEN: Open saved searches.
-            var openSearchList = new MainMenuPageObject();
-            openSearchList.SaveSearchList();
+            _openCatalogForSearching.SaveSearchList();
 
             // AND: Check if saved searche is saved.
-            var actualResult = common.IsSearchIsSaved();
-            Assert.IsTrue(actualResult, "!searching is not saved!");
+            var expectedResult = true;
+            var actualResult = _showSearching.IsSearchIsSaved();
+            Assert.AreEqual(actualResult, expectedResult, "!searching is not saved!");
         }
     }
 }
