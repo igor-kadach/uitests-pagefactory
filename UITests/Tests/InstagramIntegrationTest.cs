@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,8 +11,6 @@ namespace UITests.Tests
     [AllureNUnit]
     class InstagramIntegrationTest
     {
-        private Settings _settings;
-
         private MainMenuPageObject _linkIsAvailable;
 
         private Actions _getInstagramLink;
@@ -21,13 +18,13 @@ namespace UITests.Tests
         public InstagramIntegrationTest()
         {
             _linkIsAvailable = new MainMenuPageObject();
-            _getInstagramLink = new Actions(_settings);
+            _getInstagramLink = new Actions();
         }
 
         [SetUp]
         public void Setup()
         {
-            _settings = SettingsHelper.GetSettings();
+            SettingsHelper.GetSettings();
         }
 
         [TearDown]

@@ -7,16 +7,16 @@ namespace UITests.Utils
 {
     public class WebDriverSingleton
     {
-        private static IWebDriver _webDriver;                
+        private static IWebDriver _webDriver;
 
         public static IWebDriver GetInstance()
         {
-            Settings _settings = SettingsHelper.GetSettings();
+            SettingsHelper.GetSettings();
 
             if (_webDriver == null)
             {
                 _webDriver = new ChromeDriver();
-                _webDriver.Navigate().GoToUrl(_settings.TestUrl);
+                _webDriver.Navigate().GoToUrl(Settings.TestUrl);
                 var acceptCookie = new MainMenuPageObject();
                 acceptCookie.AcceptCookie();
                 _webDriver.Manage().Window.Maximize();

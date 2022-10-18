@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.PageObjects

@@ -7,11 +7,8 @@ namespace UITests.PageObjects
 {
     class SettingsPageObject : BaseTest
     {
-        private Settings _settings;
-
         public SettingsPageObject() : base()
         {
-            _settings = SettingsHelper.GetSettings();
         }
 
         [FindsBy(How = How.CssSelector, Using = "div:nth-child(1) > a:nth-child(1) > span:nth-child(1)")]
@@ -48,27 +45,27 @@ namespace UITests.PageObjects
 
         public void EnterActualPassword()
         {
-            _oldPassworField.SendKeys(_settings.Password);
+            _oldPassworField.SendKeys(Settings.Password);
         }
 
         public void EnterNewlPasswordForChange()
         {
-            _oldPassworField.SendKeys(_settings.NewPasswordForTest);
+            _oldPassworField.SendKeys(Settings.NewPasswordForTest);
         }
 
         public void EnterNewPassword()
         {
-            _newPasswordField.SendKeys(_settings.NewPasswordForTest);
+            _newPasswordField.SendKeys(Settings.NewPasswordForTest);
         }
 
         public void EnterNewPasswordForChange()
         {
-            _newPasswordField.SendKeys(_settings.NewPasswordForTest);
+            _newPasswordField.SendKeys(Settings.NewPasswordForTest);
         }
 
         public void EnterOldPasswordForChange()
         {
-            _newPasswordField.SendKeys(_settings.Password);
+            _newPasswordField.SendKeys(Settings.Password);
         }
 
         public void ApplyChanges()

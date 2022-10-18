@@ -1,13 +1,13 @@
 ﻿namespace UITests.TestData
 {
-    public class Settings
-    {
-        public string EmailAdress { get; set; }
-        public string Password { get; set; }
-        public string TestUrl { get; set; }
-        public string PhoneNumber { get; set; }
-        public string FileName { get; set; }
-        public string NewPasswordForTest { get; set; }
-        public string Exchange { get; set; }
+    public  class Settings      
+    {     
+        public static string EmailAdress { get; set; }
+        public static string Password { get; set; }
+        public static string TestUrl { get; set; }
+        public static string PhoneNumber { get; set; }
+        public static string FileName { get; set; }
+        public static string NewPasswordForTest { get; set; }
+        public static string Exchange { get; set; }
     }
 }

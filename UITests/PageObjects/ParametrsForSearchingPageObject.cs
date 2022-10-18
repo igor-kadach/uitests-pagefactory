@@ -9,11 +9,8 @@ namespace UITests.PageObjects
 {
     class ParametrsForSearchingPageObject : BaseTest
     {
-        private Settings _settings;
-
         public ParametrsForSearchingPageObject() : base()
         {
-            _settings = SettingsHelper.GetSettings();
         }
 
         [FindsBy(How = How.Name, Using = "p-6-0-2-brand")]
@@ -48,6 +45,9 @@ namespace UITests.PageObjects
 
         [FindsBy(How = How.XPath, Using = "//div[@id='p-15-engine_type']//li[1]")]
         private IWebElement _benzinFuel { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = "div:nth-child(2) > div:nth-child(1) > button:nth-child(1)")]
+        private IWebElement _allParametrsAfterExchange { get; set; }
 
         public void ChooseCarName()
         {
@@ -94,6 +94,17 @@ namespace UITests.PageObjects
             _allParametrs.WaitElementToBeClickable(_webDriver, 10).Click();
         }
 
+        public void WaitAllParametrsButtonAfterExchange()
+        {
+            var allParametrsButton = By.CssSelector("div:nth-child(2) > div:nth-child(1) > button:nth-child(1)");
+            allParametrsButton.WaitElementIsVisible(_webDriver, 10);
+        }
+
+        public void WaitAllParametrsClickableAfterExchange()
+        {
+            _allParametrsAfterExchange.WaitElementToBeClickable(_webDriver, 10);
+        }
+
         public void WaitAllParametrsButton()
         {
             var allParametrsButton = By.CssSelector(":nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1) > span:nth-child(1)");
@@ -107,9 +118,9 @@ namespace UITests.PageObjects
 
         public void EnterExchangeWord()
         {
-            _searchByWords.SendKeys(_settings.Exchange);
+            _searchByWords.SendKeys(Settings.Exchange);
             Thread.Sleep(2000);
-            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
+            _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
         }
 
         public void SearchingField()

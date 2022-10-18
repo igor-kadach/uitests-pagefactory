@@ -7,11 +7,8 @@ namespace UITests.PageObjects
 {
     public class AuthorizationPageObject : BaseTest
     {
-        private Settings _settings;
-
         public AuthorizationPageObject() : base()
         {
-            _settings = SettingsHelper.GetSettings();
         }
 
         [FindsBy(How = How.CssSelector, Using = "div[class='drawer__slide drawer__slide--active'] button:nth-child(2)")]
@@ -39,17 +36,17 @@ namespace UITests.PageObjects
 
         public void EnterEmailInLoginField()
         {
-            _loginInputField.SendKeys(_settings.EmailAdress);
+            _loginInputField.SendKeys(Settings.EmailAdress);
         }
 
         public void EnterPassInPasswordField()
         {
-            _passwordInputField.SendKeys(_settings.Password);
+            _passwordInputField.SendKeys(Settings.Password);
         }
 
         public void EnterNewPassInPasswordField()
         {
-            _passwordInputField.SendKeys(_settings.NewPasswordForTest);
+            _passwordInputField.SendKeys(Settings.NewPasswordForTest);
         }
 
         public void ClickOnLogInButton()

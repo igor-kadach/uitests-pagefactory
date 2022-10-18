@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -13,8 +12,6 @@ namespace UITests.Tests
 
     class CarExchangeTest
     {
-        private Settings _settings;
-
         private ParametrsForSearchingPageObject _parametrs;
 
         private CatalogPageObject _myOfferToExchange;
@@ -25,13 +22,13 @@ namespace UITests.Tests
         {
             _parametrs = new ParametrsForSearchingPageObject();
             _myOfferToExchange = new CatalogPageObject();
-            _common = new Actions(_settings);
+            _common = new Actions();
         }
 
         [SetUp]
         public void Setup()
         {
-            _settings = SettingsHelper.GetSettings();
+            SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -60,6 +57,8 @@ namespace UITests.Tests
             _parametrs.EnterExchangeWord();
             _parametrs.ClickOnPopularParametrsButton();
             _parametrs.SearchingField();
+            _parametrs.WaitAllParametrsButtonAfterExchange();
+            _parametrs.WaitAllParametrsClickableAfterExchange();
             _parametrs.ClickOnShowButton();
 
             // THEN: Open the found offer. 

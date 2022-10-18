@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,8 +11,6 @@ namespace UITests.Tests
     [AllureNUnit]
     class SaveSeachingTest
     {
-        private Settings _settings;
-
         private Actions _common;
 
         private MainMenuPageObject _openCatalogForSearching;
@@ -24,7 +21,7 @@ namespace UITests.Tests
 
         public SaveSeachingTest()
         {
-            _common = new Actions(_settings);
+            _common = new Actions();
             _openCatalogForSearching = new MainMenuPageObject();
             _saveSearch = new CatalogPageObject();
             _showSearching = new PersonalAreaPageObject();
@@ -33,14 +30,14 @@ namespace UITests.Tests
         [SetUp]
         public void Setup()
         {
-            _settings = SettingsHelper.GetSettings();
+            SettingsHelper.GetSettings();
         }
 
         [TearDown]
         public void EndTest()
         {
             // Delete saved searches.
-            var deleteSearches = new Actions(_settings);
+            var deleteSearches = new Actions();
             deleteSearches.DeleteSavedSerches();
             BaseTest.DriverClose();
         }

@@ -49,7 +49,7 @@ namespace UITests.PageObjects
         }
 
         public void ClickOnSignInButton()
-        {            
+        {
             _banner.WaitElementToBeClickable(_webDriver, 10);
             _sighInButton.WaitElementToBeClickable(_webDriver, 10).Click();
         }

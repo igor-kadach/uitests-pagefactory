@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,8 +11,6 @@ namespace UITests.Tests
     [AllureNUnit]
     class CheckFavoriteTest
     {
-        private Settings _settings;
-
         private MainMenuPageObject _openCatalogForSearching;
 
         private MainMenuPageObject _profile;
@@ -30,13 +27,13 @@ namespace UITests.Tests
             _profile = new MainMenuPageObject();
             _addToBookmarks = new CatalogPageObject();
             _openBookmarks = new PersonalAreaPageObject();
-            _common = new Actions(_settings);
+            _common = new Actions();
         }
 
         [SetUp]
         public void Setup()
         {
-            _settings = SettingsHelper.GetSettings();
+            SettingsHelper.GetSettings();
         }
 
         [TearDown]
@@ -57,7 +54,7 @@ namespace UITests.Tests
         public void CheckFavorite()
         {
             // GIVEN: User login to website.
-            var common = new Actions(_settings);
+            var common = new Actions();
             common.LoginToSite();
 
             // WHEN: Open catalog to entry parametrs for looking.

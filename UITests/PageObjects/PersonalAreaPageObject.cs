@@ -8,11 +8,8 @@ namespace UITests.PageObjects
 {
     class PersonalAreaPageObject : BaseTest
     {
-        private Settings _settings;
-
         public PersonalAreaPageObject() : base()
         {
-            _settings = SettingsHelper.GetSettings();
         }
 
         [FindsBy(How = How.XPath, Using = "//a[@href='/profile/bookmarks']")]
@@ -54,7 +51,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.CssSelector, Using = "div:nth-child(2) > button:nth-child(2)")]
         private IWebElement _pointsFor10Rubles { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Банковской картой')]")]  //Css  a[href='/order/a5435649-d55b-4d86-af2e-7334806986d8/payment-type/webpay']
+        [FindsBy(How = How.CssSelector, Using = "a[href='/order/a5435649-d55b-4d86-af2e-7334806986d8/payment-type/webpay'] ")]  //Css  a[href='/order/a5435649-d55b-4d86-af2e-7334806986d8/payment-type/webpay']       //xpath //a[contains(text(),'Банковской картой')]
         private IWebElement _payByCard { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "button[type='submit'] span[class='button__text']")]
@@ -103,7 +100,7 @@ namespace UITests.PageObjects
 
         public void ChoosePhoto()
         {
-            var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent + "\\FilesForTests"}\\{_settings.FileName}";
+            var pathForPhoto = $"{Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent + "\\FilesForTests"}\\{Settings.FileName}";
             _buttonChoosePhoto.SendKeys(pathForPhoto);
         }
 

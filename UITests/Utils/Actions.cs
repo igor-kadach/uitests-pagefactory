@@ -1,12 +1,9 @@
-﻿using UITests.TestData;
-using UITests.PageObjects;
+﻿using UITests.PageObjects;
 
 namespace UITests.Utils
 {
     public class Actions : BaseTest
     {
-        private readonly Settings _settings;
-
         private readonly MainMenuPageObject _menuActions;
 
         private readonly AuthorizationPageObject _authorizationActions;
@@ -17,10 +14,8 @@ namespace UITests.Utils
 
         private readonly SettingsPageObject _settingsActions;
 
-
-        public Actions(Settings settings) : base()
+        public Actions() : base()
         {
-            _settings = settings;
             _menuActions = new MainMenuPageObject();
             _authorizationActions = new AuthorizationPageObject();
             _parametrsActions = new ParametrsForSearchingPageObject();

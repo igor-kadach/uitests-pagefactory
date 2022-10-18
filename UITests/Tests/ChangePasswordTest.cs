@@ -3,7 +3,6 @@ using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using UITests.PageObjects;
-using UITests.TestData;
 using UITests.Utils;
 
 namespace UITests.Tests
@@ -12,8 +11,6 @@ namespace UITests.Tests
     [AllureNUnit]
     class ChangePasswordTest
     {
-        private Settings _settings;
-
         private Actions _common;
 
         private MainMenuPageObject _goToMyProfile;
@@ -26,7 +23,7 @@ namespace UITests.Tests
 
         public ChangePasswordTest()
         {
-            _common = new Actions(_settings);
+            _common = new Actions();
             _goToMyProfile = new MainMenuPageObject();
             _openSetting = new PersonalAreaPageObject();
             _changePass = new SettingsPageObject();
@@ -36,7 +33,7 @@ namespace UITests.Tests
         [SetUp]
         public void Setup()
         {
-            _settings = SettingsHelper.GetSettings();
+            SettingsHelper.GetSettings();
         }
 
         [TearDown]
