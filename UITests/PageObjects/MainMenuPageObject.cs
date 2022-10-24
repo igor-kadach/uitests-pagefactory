@@ -40,7 +40,7 @@ namespace UITests.PageObjects
         [FindsBy(How = How.XPath, Using = "//a[@href='https://av.by/profile/saved-filters']")]
         private IWebElement _saveSearchList { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "   //div[@id='adfox_163240379968878578']//a//img")]
+        [FindsBy(How = How.XPath, Using = "//div[@id='adfox_163240379968878578']//a//img")]
         private IWebElement _banner { get; set; }
 
         public void AcceptCookie()
