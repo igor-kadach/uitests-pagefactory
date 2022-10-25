@@ -119,7 +119,6 @@ namespace UITests.PageObjects
         public void EnterExchangeWord()
         {
             _searchByWords.SendKeys(Settings.Exchange);
-            Thread.Sleep(2000);
             _webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
         }
 
